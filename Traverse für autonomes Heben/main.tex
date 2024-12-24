@@ -1,0 +1,87 @@
+\documentclass[final]{fhnwreport}         %[mode] = draft or final
+\input{fhnwheader}                        %loads all packages, definitions and settings	
+
+%%%%% Bibliographie entweder im IEEE- oder im APA-Stil:
+\usepackage[style=ieee,urldate=comp,backend=biber]{biblatex}
+%\usepackage[style=apa,urldate=comp,backend=biber]{biblatex}
+%%%%%
+\addbibresource{literature/IP5_Literatur.bib}
+\addbibresource{literature/references.bib}
+											
+\title{Traverse für autonomes Heben}  %Project Title
+\author{IP5-Arbeit}    %Document Type => Technical Report, ...
+\date{Windisch, Dezember 2024}               %Place and Date
+
+\begin{document}
+
+\pagenumbering{roman}	
+
+%%---TITLEPAGE---------------------------------------------------------------------------
+\selectlanguage{ngerman}                  %ngerman or english
+\maketitle
+
+\vfill
+
+
+
+\vfill
+
+\begin{tabular}{@{}p{5cm} l}
+Studentin/Student          &    Hoang Viet Nguyen\\
+                           &    Alessandro Lenti\\[2ex]
+                           
+Betreuer/in                &    Christoph Stamm\\[2ex]
+                           &    Hilko Cords\\[2ex]
+Auftragsgeber              &    Ludwig System GmbH \& Co. KG\\[2ex]
+\multicolumn{2}{@{}l}{Fachhochschule Nordwestschweiz, Hochschule für Technik}
+\end{tabular}
+
+\vspace*{4ex}
+% Beispiel für Logo Industriepartner
+\begin{tikzpicture}[remember picture,overlay,every node/.style={anchor=north east}]
+  \node at (current page.north east) [xshift=-1cm, yshift=-0.5cm] {\includegraphics[width=4cm]{graphics/LudwigSystem_Logo.png}};
+  % Photo by Stoica Ionela on Unsplash
+\end{tikzpicture}
+
+\clearpage
+			
+%%---ABSTRACT----------------------------------------------------------------------------
+\selectlanguage{ngerman}				%ngerman or english
+\thispagestyle{empty}
+\include{sections/abstract}
+
+%%---TABLE OF CONTENTS-------------------------------------------------------------------	
+\selectlanguage{ngerman}				%ngerman or english
+\tableofcontents
+\clearpage
+
+\listoffigures
+\listoftables
+\cleardoublepage
+
+%%---Einleitung--------------------------------------------------------------------------
+\include{sections/einleitung}
+
+%%---TEXT--------------------------------------------------------------------------------
+\pagenumbering{arabic}
+\include{sections/grundlagen}
+\include{sections/konzept}
+\include{sections/implementierung}
+\include{sections/resultat}
+\include{sections/schluss}
+
+%%---BIBLIOGRAPHY------------------------------------------------------------------------
+{\sloppypar
+\printbibliography[heading=bibintoc, title=Quellenverzeichnis]
+}
+
+%%---APPENDIX----------------------------------------------------------------------------
+\include{sections/ehrlichkeit}
+\include{sections/appendix}
+
+%%---NOTES for DEBUG---------------------------------------------------------------------
+%\newpage
+%\listoftodos[\section{Todo-Notes}]
+%\clearpage
+
+\end{document}
