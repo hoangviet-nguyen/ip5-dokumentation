@@ -66,9 +66,51 @@ um die Z-Achse der Traverse, als Rotieren definiert.
 
 
 \subsection{Passermarker}
+Passermarker sind ein essenzielles Werkzeug in der modernen Bildverarbeitung und spielen eine 
+zentrale Rolle in der räumlichen Orientierung und Positionsbestimmung. Insbesondere in Anwendungen 
+wie der automatisierten Lastenhebung, wie sie von Ludwig System angestrebt wird, können Passermarker 
+helfen, Anschlagpunkte präzise zu lokalisieren.
+
+Diese Marker, darunter Barcodes, QR-Codes oder speziell entwickelte AR-Marker, liefern visuelle 
+Referenzen, die von Kamerasystemen erkannt und interpretiert werden können. Damit ermöglichen sie es, 
+Objekte im Raum genau zu positionieren oder auszurichten.
+
+In diesem Abschnitt untersuchen wir die Grundlagen von Passermarkern und beleuchten ihre spezifischen 
+Einsatzmöglichkeiten in unserem Szenario, insbesondere im Kontext der automatisierten Ausrichtung von 
+Anschlagpunkten auf der Traverse.
+
 \subsubsection{Einführung Passermarker}
+Passermarker sind quadratische Muster, die auf flachen Oberflächen aufgedruckt werden. 
+Sie dienen als visuelle Referenzpunkte, die von Kamerasystemen erkannt und interpretiert 
+werden können. Es gibt verschiedene Arten von Passermarkern, die je nach Anwendung 
+unterschiedliche Eigenschaften und Einsatzmöglichkeiten bieten. 
+Abbildung \ref{fig:marker_types} zeigt eine Auswahl solcher Marker.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/marker_arten.png}
+    \caption{Verschiedene Marker Arten}
+    \label{fig:marker_types}
+\end{figure}
+
+Grundsätzlich gilt: Je komplexer und größer ein Marker ist, desto mehr Informationen können
+darin gespeichert werden. Dabei muss jedoch der Informationsgehalt immer an die spezifischen 
+Anforderungen der Anwendung angepasst werden, um eine optimale Balance zwischen Größe, Lesbarkeit 
+und Informationsdichte zu gewährleisten.
+
+In der Robotik gehören AprilTags und AruCo-Marker zu den meistgenutzten Passermarkern. 
+Ihre Beliebtheit basiert auf ihrer Robustheit und Effizienz bei der Lokalisierung in 
+dreidimensionalen Räumen. Diese Marker wurden speziell entwickelt, um Verzerrungen und 
+schwierige Lichtverhältnisse zu kompensieren und eine präzise Posenschätzung zu ermöglichen. 
+Ihre Anwendung wird im weiteren Verlauf dieser Arbeit genauer beleuchtet, insbesondere im 
+Kontext der automatisierten Lokalisierung von Anschlagpunkten.
+
+
 \subsubsection{Posenschätzung durch AR Marker}
+
+
 \subsubsection{Probleme mit Passermarkern}
+
 
 
 \subsection{Objekterkennung durch Machine Learning}
