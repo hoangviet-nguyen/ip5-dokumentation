@@ -114,10 +114,76 @@ Kontext der automatisierten Lokalisierung von Anschlagpunkten.
 
 
 \subsection{Objekterkennung durch Machine Learning}
-\subsubsection{Grundlagen Objekterkennung mit Neuronalen Netzen}
-\subsubsection{Vorhandene Modelle}
-\subsubsection{Probleme mit Machine Learning}
+Künstliche Intelligenz (KI) spielt eine immer wichtigere Rolle in verschiedenen Bereichen 
+unseres Lebens und wird auch in Zukunft zahlreiche Innovationen vorantreiben. 
+Bereits heute revolutioniert sie viele Branchen, darunter die Automatisierung, 
+Bildverarbeitung und Robotik. Eine besonders relevante Disziplin innerhalb der KI ist die 
+Objekterkennung, die mithilfe von neuronalen Netzen umgesetzt wird.
 
+Speziell für die vorliegende Problemstellung könnte eine KI entwickelt werden, die in der 
+Lage ist, Anschlagpunkte unterschiedlicher Arten präzise zu erkennen und zu markieren. 
+Durch den Einsatz von Machine-Learning-Modellen kann die Erkennung kontinuierlich verbessert 
+werden, indem sie aus neuen Daten lernt und sich an verschiedene Szenarien und Bedingungen 
+anpasst.
+
+\subsubsection{Grundlagen Objekterkennung mit Neuronalen Netzen}
+Neuronale Netzwerke sind inspiriert vom menschlichen Gehirn, bei dem Informationen zwischen Neuronen weitergegeben 
+werden. Dabei verarbeitet jedes Neuron Signale und leitet sie verstärkt oder abgeschwächt an das nächste Neuron weiter.
+Abbildung \ref{fig:humanCell} zeigt eine schematische Darstellung, wie Neuronen im menschlichen Gehirn miteinander 
+kommunizieren.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/human_model.png}
+    \caption{Biologisches Neuron im menschlichen Gehirn}
+    \label{fig:humanCell}
+\end{figure}
+
+Ähnlich wie das menschliche Gehirn Muster wie Kanten und Farben erkennen kann, werden künstliche neuronale Netzwerke 
+darauf trainiert, Muster in numerischen Daten zu identifizieren. Maschinen sehen jedoch keine Bilder direkt, sondern 
+verarbeiten Zahlenwerte (z. B. Pixelintensitäten), die aus den Bildern extrahiert werden. Dazu benötigen neuronale 
+Netzwerke Parameter, die während des Trainingsprozesses optimiert werden. Zusätzlich wird ein Fehlersignal berechnet, 
+wenn das Modell falsche Vorhersagen trifft, um das Lernen zu steuern.
+
+Abbildung \ref{fig:network} zeigt die Struktur eines neuronalen Netzwerks mit drei Schichten: der Eingabeschicht (Input Layer), 
+den verborgenen Schichten (Hidden Layers) und der Ausgabeschicht (Output Layer). Im Input Layer werden die Pixelwerte 
+eines Bildes verarbeitet. Diese Werte werden mit den Gewichten der Verbindungen zwischen den Neuronen multipliziert, 
+aufsummiert und an die nächste Schicht weitergegeben. In den Hidden Layers werden diese Berechnungen weitergeführt, 
+bis im Output Layer eine Wahrscheinlichkeitsverteilung ausgegeben wird, die anzeigt, ob ein Anschlagspunkt im Bild 
+vorhanden ist.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/network.png}
+    \caption{Aufbau eines neuronalen Netzwerks}
+    \label{fig:network}
+\end{figure}
+
+Damit ein Modell zuverlässig Anschlagspunkte erkennen kann, benötigt es Trainingsdaten, die korrekt klassifiziert sind. 
+Während des Trainingsprozesses wird der Output des Modells mit den tatsächlichen Zielwerten verglichen, um den Verlust (Error) 
+zu berechnen. Ziel ist es, diesen Verlust so gering wie möglich zu halten. Dies geschieht durch Optimierungsverfahren wie den 
+Gradientenabstieg, bei dem die Ableitung der Verlustfunktion berechnet und zur Anpassung der Gewichte im Netzwerk verwendet wird.
+
+
+\subsubsection{Vorhandene Modelle}
+
+
+\subsubsection{Probleme mit Machine Learning}
+Künstliche Intelligenz (KI) ist ein faszinierendes und vielversprechendes Thema, bringt 
+jedoch einige Herausforderungen mit sich. Eines der Hauptprobleme ist der immense Bedarf 
+an qualitativ hochwertigen Daten, die oft manuell aufbereitet und annotiert werden müssen. 
+Dieser Prozess ist zeitaufwendig und erfordert erhebliche personelle und technische Ressourcen.
+
+Darüber hinaus sind KI-Systeme in der Regel äußerst rechenintensiv. Wenn solche Systeme auf
+einer Baustelle eingesetzt werden sollen, ist es oft notwendig, die Berechnungen remote in 
+leistungsstarken Rechenzentren durchzuführen. Dies führt nicht nur zu zusätzlichen Kosten, 
+sondern auch zu potenziellen Verzögerungen durch Latenzzeiten bei der Datenübertragung.
+
+Ein weiteres Problem besteht darin, dass die KI allein anhand von Bilddaten ohne zusätzliche 
+Informationen, wie etwa den genauen Dimensionen der Anschlagspunkte, Schwierigkeiten hat, 
+präzise Berechnungen für die korrekte Ausrichtung der Traverse durchzuführen.
+Dies verdeutlicht die Notwendigkeit einer Kombination aus KI-gestützter Objekterkennung und 
+zusätzlichen sensorischen Daten, um zuverlässige Ergebnisse zu erzielen.
 
 \subsection{Kameras}
 \subsubsection{Kameraeigenschaften}
