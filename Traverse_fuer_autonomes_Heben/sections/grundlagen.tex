@@ -105,9 +105,23 @@ schwierige Lichtverhältnisse zu kompensieren und eine präzise Posenschätzung 
 Ihre Anwendung wird im weiteren Verlauf dieser Arbeit genauer beleuchtet, insbesondere im 
 Kontext der automatisierten Lokalisierung von Anschlagpunkten.
 
-
+\clearpage
 \subsubsection{Posenschätzung durch AR Marker}
+Das Problem der Posenberechnung kommt aus dem Bereich der Erweiterten Realität.
+Dabei löst meine eine Gleichung welche den Projektionsfehler von 2D Bildkoordinaten 
+in 3D Weltkoordinaten minimiert. Nach dem Lösen der Gleichung erhält man einen Rotation
+und Translation Vektor welche die Kamera als Koordinatenursprung enthält.
+Abbildung \ref{fig:pose} zeigt wie das ganze aussieht
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/pose.png}
+    \caption{Posenschätzung}
+    \label{fig:pose}
+\end{figure}
+
+Laut \cite{pose} braucht es dazu folgende Komponenten: Die intrinsische Parameter der Kamera K,
+    
 
 \subsubsection{Probleme mit Passermarkern}
 
