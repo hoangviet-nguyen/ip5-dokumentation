@@ -219,6 +219,24 @@ Z_w \\
 \]
 
 \subsubsection{Probleme mit Passermarkern}
+Mithilfe von Passermarkern können wir Anschlagpunkte erkennen und dessen Position bestimmen.
+Zusätzlich können wir mit deren Hilfe ausrechnen wie sich die Traverse Positionieren musss, damit
+sich über den den Anschlagspunkten befindent.
+
+Allerdings stellen Passsermarker keine perfekte Lösung dar, um Anschlagpunkte zuverlässig zu lokalisieren. 
+Sie sind besonders empfindlich gegenüber äusseren Einflüssen. Bereits geringe Verschmutzungen, 
+wie etwa Schmutz oder Staub auf den Kanten, können die Erkennung erheblich beeinträchtigen 
+oder sogar vollständig verhindern.
+
+Darüber hinaus sind Passermarker anfällig für ungünstige Lichtverhältnisse. Blendung, Schatten 
+oder Reflexionen können die Erkennungsrate deutlich verringern, insbesondere in Aussenbereichen 
+oder bei wechselnden Lichtbedingungen. Auch der Erkennungsbereich der Marker ist begrenzt: Marker 
+müssen sich in einem bestimmten Abstand und Winkel zur Kamera befinden um erkannt zu werden.
+
+Grössere Marker können zwar leichter erkannt werden, bringen jedoch eigene Herausforderungen mit sich. 
+insbesondere wenn auf der Last nicht genügend Platz für die Anbringung verfügbar ist. Zudem nutzen 
+sich Marker durch äussere Einflüsse, wie Witterung oder mechanische Belastung, schnell ab. Um die 
+Erkennung dauerhaft zu gewährleisten, müssen sie regelmässig ersetzt oder neu angebracht werden.
 
 
 
@@ -243,7 +261,7 @@ kommunizieren.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{graphics/human_model.png}
+    \includegraphics[width=0.4\linewidth]{graphics/human_model.png}
     \caption{Biologisches Neuron im menschlichen Gehirn}
     \label{fig:humanCell}
 \end{figure}
@@ -274,8 +292,6 @@ zu berechnen. Ziel ist es, diesen Verlust so gering wie möglich zu halten. Dies
 Gradientenabstieg, bei dem die Ableitung der Verlustfunktion berechnet und zur Anpassung der Gewichte im Netzwerk verwendet wird.
 
 
-\subsubsection{Vorhandene Modelle}
-
 
 \subsubsection{Probleme mit Machine Learning}
 Künstliche Intelligenz (KI) ist ein faszinierendes und vielversprechendes Thema, bringt 
@@ -295,10 +311,73 @@ Dies verdeutlicht die Notwendigkeit einer Kombination aus KI-gestützter Objekte
 zusätzlichen sensorischen Daten, um zuverlässige Ergebnisse zu erzielen.
 
 \subsection{Kameras}
+Um die Anschlagpunkte zuverlässig erkennen zu können, sind geeignete Kamerasysteme
+erforderlich. Um zu verstehen, warum bestimmte Schritte, wie beispielsweise die 
+Kalibrierung der Kamera, notwendig sind und warum es zu Ungenauigkeiten bei den 
+Berechnungen zur Positionierung der Traverse kommen kann, betrachten wir in diesem 
+Abschnitt die Funktionsweise und Eigenschaften von Kamerasystemen genauer.
+
 \subsubsection{Kameraeigenschaften}
-(Erklären was FOV, Verzerrrungen etc ist)
+Eine Kamera kann ein Bild generieren, das insgesamt \( L \) Pixel in 
+der Länge und \( H \) Pixel in der Höhe besitzt. \( L \) und \( H \) 
+beschreiben hierbei die Auflösung der Kamera. Die Auflösung ist ein 
+wichtiger Faktor, da sie bestimmt, wie viele Details in einem Bild 
+sichtbar sind. Höhere Auflösungen ermöglichen genauere Berechnungen, 
+erfordern jedoch auch mehr Rechenleistung für die Verarbeitung der 
+Bilder.
+
+Das FOV (Field of View) einer Kamera beschreibt den Bereich der Szene,
+den die Kamera sehen oder aufnehmen kann. Es ist ein grundlegender 
+Parameter, der angibt, wie viel von der Umgebung eine Kamera in einem 
+Bild oder Video erfassen kann. Je höher das FOV, desto größer ist 
+jedoch die Verzerrung, die im Bild entsteht.
+Abbildung \ref{fig:fisheye} zeigt, wie eine starke Verzerrung aussieht,
+die typischerweise bei Weitwinkel- oder Fisheye-Objektiven auftritt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/fisheye.jpg}
+    \caption{Beispielfoto einer starken Verzerrung}
+    \label{fig:fisheye}
+\end{figure}
+
+Neben Auflösung und FOV gibt es weitere wichtige Eigenschaften, die 
+bei der Auswahl und Nutzung einer Kamera berücksichtigt werden sollten:
+
+\begin{itemize}
+    \item \textbf{Bildrate (Frame Rate):} Gibt an, wie viele Bilder pro Sekunde aufgenommen werden können.
+    \item \textbf{Fokus und Tiefenschärfe:} Der Fokusbereich beeinflusst, welche Bereiche des Bildes scharf dargestellt werden.
+\end{itemize}
+
+
 \subsubsection{Intrinsische Kalibrierung}
-\subsubsection{Herausforderungen}
+Verzerrungen, insbesondere an den Kanten eines Bildes, können zu Rechenfehlern 
+bei der Positionierung der Traverse führen. Verzerrungen entstehen durch optische 
+Abweichungen der Linse und sind besonders bei hohen FOV-Werten ausgeprägt. 
+Zudem können sie die Erkennung der Anschlagpunkte erschweren, da die Form und 
+Lage der Marker falsch interpretiert werden können.
+
+Um diese Probleme zu vermeiden, muss die Kamera vor ihrem Einsatz kalibriert
+werden. Die Kamerakalibrierung umfasst die Korrektur von Verzerrungen 
+(z. B. radialen und tangentialen Verzerrungen) sowie die Bestimmung der 
+intrinsischen Parameter der Kamera, wie:
+
+\begin{itemize}
+    \item \textbf{Brennweite} (\( f_x, f_y \)): Gibt an, wie stark die Linse das Licht bündelt.
+    \item \textbf{Hauptpunkt} (\( c_x, c_y \)): Die Koordinaten des optischen Zentrums auf dem Bildsensor.
+    \item \textbf{Verzerrungskoeffizienten}: Parameter, die die Stärke der Verzerrungen beschreiben.
+\end{itemize}
+
+Um eine Kamera zu kalibrieren, werden mehrere Fotos eines regelmäßigen Musters 
+benötigt, beispielsweise eines Schachbretts. Die Bilder sollten aus verschiedenen 
+Distanzen und Blickwinkeln aufgenommen werden, um eine möglichst breite Datenbasis 
+zu schaffen. Dabei ist es wichtig die Kamera zu bewegen, während das Muster, 
+beispielsweise auf einer Wand, fest positioniert bleibt.
+
+Die Dokumentation von OpenCV \cite{opencv_calibration_tutorial} liefert praktische 
+Beispiele und erklärt detailliert, wie die Kalibrierung implementiert werden 
+kann.
+
 
 \subsection{Vorhandene Frameworks}
 (Erklärung von OpenCV und ihren Methoden)

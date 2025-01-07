@@ -24,11 +24,61 @@ Für dieses Konzept werden Sticker von den Markern benötigt, welche eine genaue
 Wie in der Abbildung (ref) zu sehen ist werden 4 Marker in einem Kreuz-Muster um den Anschlagspunkt angeordnet. Für Anschlagspunkt 1 werden Marker mit den IDs von 0 bis 3 benutzt und in der Reihenfolge links, oben, rechts und dann unten angeordnet. Für Anschlagspunkt 2 Marker mit den IDs von 4 bis 7 benutzt. Dadurch können zwischen den zwei Anschlagspunkten differenziert werden wenn beide Anschlagspunkte im Bild sind.Falls weitere Anschlagspunkte benötigt werden, sollten die Marker-IDs-Reihenfolge und Position fortgeführt werden. Diese Anordnung sorgt dafür dass mindestens ein Marker erkannt werden kann, soweit die Traverse in der definierten Grenze ist. 
 (redundanz erhöht stabilität)
 
-\subsubsection{Marker Grösse}
+\clearpage
+\subsubsection{Markergröße}
 
-Die Grösse eines Markers hat einen direkten Einfluss auf die Genauigkeit der Posenschätzung. Damit die Genauigkeiten sichergestellt werden können, muss die grösst mögliche Seitenlänge *l* eines Markers in cm berechnet werden in der Kreuz-Muster Anordenung, welche im Kapitel (ref) beschrieben ist.
+Die Markergröße ist von entscheidender Bedeutung, um die Anschlagspunkte präzise 
+zu lokalisieren und die Berechnungen für die Ausrichtung der Traverse durchzuführen. 
+Ziel ist es, den Marker so groß wie möglich zu gestalten, um die Genauigkeit der 
+Distanzberechnung zu maximieren. Abbildung \ref{fig:marker} veranschaulicht, wie die Markergröße 
+basierend auf einem gegebenen Radius \( R \) maximiert werden kann.
 
-(Rechnung von l)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{graphics/marker.png}
+    \caption{Diagramm zur Berechnung der Markergröße}
+    \label{fig:marker}
+\end{figure}
+
+Um die Fläche der Marker (dargestellt als blaue Quadrate) zu maximieren, berechnen wir die Fläche des Quadrats unter Berücksichtigung der Teilflächen. Die Gesamtfläche des Kreises wird durch die folgende Formel beschrieben:
+
+\[
+A_\text{Kreis} = \pi \cdot R^2
+\]
+
+Die Fläche eines einzelnen Quadrats ergibt sich aus:
+
+\[
+A_{\text{Quad}} = x^2
+\]
+
+Die Fläche der vier kleinen und vier großen Kreissegmente wird mithilfe der folgenden Formel berechnet:
+
+\[
+A_\text{Kreisegment} = \frac{1}{2} \cdot R^2 \cdot (\alpha - \sin(\alpha))
+\]
+
+Dabei kann der Winkel \(\alpha\) über die Sehnenlänge \(c\) berechnet werden, die in Abbildung \ref{fig:marker} in Rot und Schwarz dargestellt ist. Üblicherweise wird \(c\) in der Literatur als Sehnenlänge bezeichnet:
+
+\[
+c_\text{klein} = x
+\]
+
+\[
+c_\text{gross} = \sqrt{2} \cdot x
+\]
+
+Der Winkel \(\alpha\) ergibt sich aus der folgenden Beziehung:
+
+\[
+\alpha = 2 \cdot \arcsin\left(\frac{c}{2R}\right)
+\]
+
+Mithilfe der berechneten Teilflächen kann nun eine quadratische Funktion konstruiert werden, die die Beziehung zwischen der Markergröße und dem gegebenen Radius \(R\) beschreibt. Um die maximale Fläche zu ermitteln, lösen wir die Gleichung durch Bestimmung der Nullstellen:
+
+\[
+f(x) = 7 \cdot A_\text{Quad} + 4 \cdot A_\text{SegKlein} + 4 \cdot A_\text{SegGross} - \pi \cdot R^2
+\]
 
 
 \subsubsection{Mittelpunkt-Berechnung der Marker Anordnung}
