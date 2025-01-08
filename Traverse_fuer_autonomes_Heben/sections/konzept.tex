@@ -7,6 +7,8 @@ Da sich die Art von Last ändern kann, wurde der Fokus auf die Lokalisierung der
 Es wurden 2 Konzepte ausgearbeitet, welche diese Ziele erfüllen können. Beim ersten Konzept wird ein Machine-Learning Modell benutzt um die Anschlagspunkte zu erkennen und 3D Lokalisierung durchzuführen und beim zweiten Konzept werden die Anschlagspunkte durch AR Marker 
 Lokalisiert.
 
+\subsection{Anforderungen}\label{requirements}
+
 
 \subsection{Konzept: Lokalisierung durch Machine Learning}
 
@@ -86,24 +88,98 @@ f(x) = 7 \cdot A_\text{Quad} + 4 \cdot A_\text{SegKlein} + 4 \cdot A_\text{SegGr
 Um von den 3D Koordinaten der Markern zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation gemacht werden. Da die Berechnung zum Mittelpunkt auch mit nur einem Marker funktionieren muss, wird von jede Marker-Koordinaten in die Mitte des Keuz-Musters translatiert. Die Anordung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. Marker mit der ID 0 und 4 werden um + l und Marker mit ID 2 und 6 um -l in der X-Achse translatiert. Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l in der Y-Achse translatiert. Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
 
 \subsection{Evaluation Konzepte}
-Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Des Weiteren kann nicht sicher gestellt werden, dass die 3D Koordinaten und Rotationen denn gewünschten Genauigkeiten entsprechen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
+Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
+
+\subsection{Kamera Eigenschaften}
+
+Um die Anforderungen vom\ref{requirements} zu erfüllen braucht das System eine Kamera, welche sicherstellt dass die Marker genau erkannt werden können.
+
+Dafür ausschlaggebend sind die Markergrösse und eine hohe Bildauflösung\cite{noauthor_designing_2020}. 
+
+Ein weiteres Kriterium für eine genauere Posenschätzung ist die FOV, also Field of View. 
+Denn bei höheren FOVs kommt es zu verzerrungen, was dazu resultiert, dass Marker, die weiter von der Bildmitte entfernt sind, keine geraden Linien haben, welches die Posenschätzung ungenauer macht.
 
 
-\subsection{System Anforderungen}
+\subsubsection{Kamera horizontale Bildwinkel}
 
-\subsubsection{Lokalisierung Last}
-(Erklärung wie die Lokalisierung mithilfe von Marker funktionieren sollte.)
+Die Kamera sollte von der Mindesthöhe, also 75cm, beide Anschlagspunkte sehen können.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/KameraFOV.png}\hfill%
+    \caption{Kameras decken die Last komplett ab}
+    \label{fig:FOV}
+\end{figure}
+
+Um einen grossen horizontalen BildWinkel zu vermeiden, wird wie in der Abbildung\ref{fig:FOV} zwei Kameras verwendet. 
+Beide Kameras sollten für je ein Anschlagspunkt verantwortlich sein und so im ideal Fall, wenn die Traverse direkt über der Last ist, mindestens von der Mitte der Last bis zum Anschlagspunkt reichen.
+
+Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benutzt:
+
+Mindesthöhe = h = 75cm\\
+Halb-Distanz Mitte-Anschlagspunkt = d = 117.5cm\\
+
+Damit kann man den Bildwinkel berechnen welches beide Kameras benutzen müssen:
+
+\begin{equation}
+    Bildwinkel = f = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5}{75} = 114.9°
+    \label{eq:FOV}
+\end{equation}
 
 
-\subsubsection{Distanzberechnung}
-\subsubsection{Kameraposition}
+\subsubsection{Kamera Bildauflösung}
+Um festzustellen welche Bildauflösung optimal ist, muss die Genauigkeit der Positionierung berechnet werden.
 
-\subsection{Kamera Anforderungen}
-\subsubsection{Kamera Spezifikationen}
-(Erklärung welche Kamera Eigenschaften gebraucht werden und wieso wir diese brauchen.)
+Mit den benötigten Variablen:
 
-\subsubsection{Kamera Eigenschaften}
-(Erklärung der Rechnung horizontale Bildauflösung und auflistung aller Eigenschaften ausgehend von der Mindest distanz.)
+ Marker Grösse = l = 6.3cm\\
+ Anz. Bits in Länge = b\\
+ horizontale FOV = f = 114.9°\\
+ horizontale Bildauflösung = r\\
+ Anz Pixel pro Bit = p\\
+ Max Distanz = m = 200cm\\
 
+b ist durch den Marker bestimmt und besagt wie viele Bits in einer Markerbreite sind. 
+Für folgende Rechnungen wird der Apriltag 41h12 benutzt welcher 9 Bits hat, also b = 9.
 
+Damit die Genauigkeit der Positionierung berechnet werden kann, muss man erst bestimmen auf wie viele Pixel genau die Lokalisierung ist.
 
+Dafür benutzt man die Formel\ref{eq:maxDistance}, welche die Maximal Distanz ausrechnet\cite{noauthor_designing_2020}:
+\begin{equation}
+m = \frac{t}{2\tan\frac{b*f*p}{2r}}.
+\label{eq:maxDistance}
+\end{equation}
+
+und löst die Formel\ref{eq:maxDistance} nach p auf:
+\begin{equation}
+p = \frac{2r*\arctan\frac{t}{2*m}}{b*f} = \frac{2r*\arctan\frac{6.3cm}{400cm}}{9*114.9°}
+\label{eq:PixelperBits}
+\end{equation}
+
+Danach muss die Grösse eines Bildpixels in der Realität berechnet werden.
+
+\begin{equation}
+g = \frac{313.334cm}{r}
+\label{eq:PixelReal}
+\end{equation}
+
+Mit p und g aus der Formel \ref{eq:PixelReal} kann die Genauigkeit pro Meter berechnet werden.
+
+\begin{equation}
+q = g * p
+\label{eq:precision}
+\end{equation}
+
+Wenn man jetzt diese Formeln einsetzt für verschiedene Bildauflösungen.
+
+\begin{center}
+    \begin{tabular}{ c c c }
+    \label{tab:resolutions}
+     Bildauflösung & p & q \\ 
+     1920x1080 & 3.35 & 0.547 \\  
+     3840x2160 & 6.701 & 0.547 \\
+     4096x2160 & 7.1481 & 0.5468 \\ 
+\end{tabular}
+\end{center}
+
+Wie man sieht ist die Genauigkeit  bei allen gleich.
