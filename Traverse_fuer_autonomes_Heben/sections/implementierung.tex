@@ -14,11 +14,110 @@ unseren code geben)
 \subsubsection{Kamare Kalibrieren}
 (Erklärung wie ArUco funktioniert und wie die Erkennung implementiert wurde)
 
-\subsubsection{Umsetzung Posenschätzung der Marker}
-(Erklärung der Umsetzung der Posenschätzung sowie die ersten Resultate zeigen und evaluieren welche besser ist)
+
+\subsubsection{Erkennung von AprilTag}
+Um AprilTags erkennen zu können verwenden wir die Github Resource \cite{apriltag_github}.
+Die Software wird unter der BSD 2-Clause License veröffentlicht und kann unter bestimmten Bedingungen
+Frei genutzt werden. Wir stellen die Benötigten Binär Dateien in unseren Projekt zur verfügung.
+
+Folgendes Code Beispiel zeigt wie der AprilTag im einem Bild erkennt werden kann.
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries\color{blue},
+  commentstyle=\itshape\color{green!50!black},
+  stringstyle=\color{orange},
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt
+}
+
+\begin{lstlisting}
+from apriltag import apriltag
+from cv2 import undistort
+
+img = "path/to/image"
+undistorted = undistort(img, calibration_matrix, distortion)
+detector = apriltag("tagStandard41h12")
+detected_marker = detector.detect(undistorted)
+\end{lstlisting}
+
+
+Die Variable \texttt{detected\_marker} enthält eine Liste der erkannten Marker, einschließlich ihrer Tag-Nummern.
+Zusätzlich liefert die Variable die Koordinaten der Eckpunkte der Marker im Bild sowie 
+die Koordinaten des Zentrums jedes Markers. Diese Informationen sind essenziell, um die Marker 
+präzise zu lokalisieren und weitere Berechnungen, wie die Positionsbestimmung, durchzuführen.
+
 
 \subsubsection{Umsetzung der Mittelpunkt-Berechnung}
 (Erklärung wie die Umsetzung von Kapitel 3.5.3 funktioniert, und die Resultate zeigen) 
+
+\subsubsection{Umsetzung Posenschätzung}
+Die Posenschätzung ermöglicht es, die Position und Orientierung eines Markers relativ zur Kamera
+zu bestimmen. Dafür werden die intrinsischen Kameraparameter, die Eckpunkte des erkannten 
+Markers (in Bildkoordinaten) sowie die reale Größe des Markers benötigt. Die Größe sollte 
+in einer einheitlichen Maßeinheit angegeben werden, in unserem Fall Zentimeter (cm).
+
+Der folgende Code implementiert die Posenschätzung für einen einzelnen Marker:
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{blue},
+    commentstyle=\itshape\color{green!50!black},
+    stringstyle=\color{orange},
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=4pt
+}
+
+
+\begin{lstlisting}
+def estimatePoseSingleMarkers(corners, marker_size, mtx, distortion):
+    '''
+    This will estimate the rvec and tvec for each of the marker corners 
+    detected by:
+
+    corners - array of detected corners for each detected marker
+    marker_size - is the size of the detected markers
+    mtx - is the camera matrix
+    distortion - is the camera distortion matrix
+    RETURN list of rvecs, tvecs
+    '''
+    points = np.array([[-marker_size / 2, marker_size / 2, 0],
+                              [marker_size / 2, marker_size / 2, 0],
+                              [marker_size / 2, -marker_size / 2, 0],
+                              [-marker_size / 2, -marker_size / 2, 0]])
+
+    _, R, t = cv2.solvePnP(
+        marker_points, 
+        corners, mtx, 
+        distortion,
+        cv2.SOLVEPNP_IPPE_SQUARE
+    )
+    
+    return np.array([R]).flatten(), np.array([t]).flatten()
+\end{lstlisting}
+
+Die Variable \texttt{points} enthält die 3D-Koordinaten der Ecken des Markers in der realen Welt. 
+Diese werden für die Berechnungen der Methode cv2.SOLVEPNP\_IPPE\_SQUARE benötigt. 
+Die Methode erfordert, dass der Marker als ein Quadrat definiert wird, dessen Seiten parallel 
+zu den Achsen des Koordinatensystems liegen.
+
+Die Funktion gibt zwei Vektoren zurück:
+\begin{itemize}
+    \item \textbf{Rotationsvektor} (\texttt{rvec}): Beschreibt die Orientierung des Markers relativ zur Kamera.
+    \item \textbf{Translationsvektor} (\texttt{tvec}): Gibt die Position des Markers relativ zur Kamera an.
+\end{itemize}
+
+Diese Ergebnisse können verwendet werden, um die Traverse korrekt zu positionieren oder andere 
+räumliche Transformationen durchzuführen.
+
 
 \subsection{Resultate}
 
