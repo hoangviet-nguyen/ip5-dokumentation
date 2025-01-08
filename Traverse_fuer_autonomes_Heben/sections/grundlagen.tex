@@ -62,6 +62,7 @@ um die Z-Achse der Traverse als Rotieren definiert.
 
 \subsubsection{Arbeit: Erkennung von auf Robotersystemen angebrachten Passermarken}
 
+\clearpage
 \subsection{Passermarker}
 Passermarker sind ein essenzielles Werkzeug in der modernen Bildverarbeitung und spielen eine 
 zentrale Rolle in der räumlichen Orientierung und Positionsbestimmung. Insbesondere in Anwendungen 
@@ -380,5 +381,15 @@ kann.
 
 
 \subsection{Vorhandene Frameworks}
-(Erklärung von OpenCV und ihren Methoden)
+OpenCV ist eine populäre Open-Source-Bibliothek für verschiedene Bildverarbeitungssoftware.
+Open Source bedeutet, dass die Funktionen für jeden frei verfügbar sind. OpenCV bietet 
+umfangreiche Funktionen, um AruCo-Marker zu erkennen und eine Kamerakalibration durchzuführen.
+Weitere Informationen zu OpenCV finden sich auf der offiziellen Webseite unter opencv.org.
 
+Allerdings unterstützt OpenCV keine Erkennung von AprilTags. Um diese Aufgabe zu erfüllen, verwenden 
+wir stattdessen eine spezielle Ressource, die im GitHub-Repository für AprilTags bereitgestellt 
+wird \cite{apriltag_github}. Dieses Repository basiert auf drei wissenschaftlichen Arbeiten 
+\cite{olson2011tags} \cite{wang2016iros} \cite{krogius2019iros} und bietet eine effiziente 
+und robuste Lösung zur Erkennung von AprilTags. Die Software wird unter der BSD 2-Clause License 
+veröffentlicht, die eine freie Nutzung, Modifikation und Weiterverteilung unter bestimmten Bedingungen 
+erlaubt. Weitere Details zur Lizenz können direkt im Repository nachgelesen werden.
