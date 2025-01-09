@@ -338,6 +338,11 @@ Folgender Code iteriert durch die gefundenen Marker und berechnet den Mitllepunk
         point = np.add(tVec[i][0], translate)
 \end{lstlisting}
 
+Man führt zuerst die Posenschätzung aus um die Translations und Rotations Vektoren zu bekommen.
+Mit der Rodrigues Methode kann man den Rotations Vektor zu einer Rotations Matrix umwandeln.
+Dann muss man die Translation zur Mitte zusammen mit der Rotationsmatrix zusammenrechnen um so eine richtig rotierte Translation zur Mitte zu bekommen.
+Welche Translation benutzt werden muss wird, wie im Kapitel \ref{sec:middlePoint} beschrieben, durch die ID des Markers Modulo 4 definiert, da es 4 pro Anschlagspunkt gibt.
 
+Schlussendlich wird auf die Translations Vektor vom Marker die Tranlation zur Mitte addiert und so bekommt man den Mittelpunkt der Anordnung.
 
 
