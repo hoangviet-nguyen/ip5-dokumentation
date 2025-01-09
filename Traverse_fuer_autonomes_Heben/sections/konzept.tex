@@ -9,6 +9,33 @@ Lokalisiert.
 
 \subsection{Anforderungen}\label{requirements}
 
+Folgende Anforderungen muss das Konzept erfüllen:
+
+\begin{center}
+\begin{tabular}{ |l|l|}
+    \hline
+    Anforderung                            & Beschreibung \\
+    \hline
+    Genauigkeit X Koordinate & Die Ungenauigkeit der X-Koordinaten darf +- 2cm betragen.\\
+    \hline
+    Genauigkeit Y Koordinate & Die Ungenauigkeit der Y-Koordinaten darf +- 2cm betragen. \\
+    \hline
+    Genauigkeit Z Koordinate & Die Ungenauigkeit der Z-Koordinaten darf +- 1cm betragen. \\
+    \hline
+    Genauigkeit Rotation & Die Ungenauigkeit der Rotation darf +- 2° betragen.\\
+    \hline
+    Genauigkeit Neigung & Die Ungenauigkeit der Neigung darf +- 1° betragen. \\
+    \hline
+    Kalibrierung der Kamera & Die Kamerakalibrierung soll möglich sein\\
+    \hline
+    Speicherung der Kalibrierung & Die Kalibrierungs Daten sollten abgespeichert werden. \\ 
+    \hline
+    Anschlagspunkt Koordinaten & Die Koordinaten der Anschlagpunkte sollte ausgegeben werden\\
+    \hline
+\end{tabular}
+\end{center}
+
+
 
 \subsection{Konzept: Lokalisierung durch Machine Learning}
 
@@ -114,6 +141,7 @@ Die Kamera sollte von der Mindesthöhe, also 75cm, beide Anschlagspunkte sehen k
 
 Um einen grossen horizontalen BildWinkel zu vermeiden, wird wie in der Abbildung\ref{fig:FOV} zwei Kameras verwendet. 
 Beide Kameras sollten für je ein Anschlagspunkt verantwortlich sein und so im ideal Fall, wenn die Traverse direkt über der Last ist, mindestens von der Mitte der Last bis zum Anschlagspunkt reichen.
+Beide Kameras sind dann 117.5cm von der Traversen Mitte entfernt.
 
 Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benutzt:
 
@@ -123,7 +151,7 @@ Halb-Distanz Mitte-Anschlagspunkt = d = 117.5cm\\
 Damit kann man den Bildwinkel berechnen welches beide Kameras benutzen müssen:
 
 \begin{equation}
-    Bildwinkel = f = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5}{75} = 114.9°
+    Bildwinkel = \alpha = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5cm}{75cm} = 114.9\degree
     \label{eq:FOV}
 \end{equation}
 
@@ -131,56 +159,45 @@ Damit kann man den Bildwinkel berechnen welches beide Kameras benutzen müssen:
 \subsubsection{Kamera Bildauflösung}
 Um festzustellen welche Bildauflösung optimal ist, muss die Genauigkeit der Positionierung berechnet werden.
 
-Mit den benötigten Variablen:
-
- Marker Grösse = l = 6.3cm\\
- Anz. Bits in Länge = b\\
- horizontale FOV = f = 114.9°\\
- horizontale Bildauflösung = r\\
- Anz Pixel pro Bit = p\\
- Max Distanz = m = 200cm\\
-
-b ist durch den Marker bestimmt und besagt wie viele Bits in einer Markerbreite sind. 
-Für folgende Rechnungen wird der Apriltag 41h12 benutzt welcher 9 Bits hat, also b = 9.
-
 Damit die Genauigkeit der Positionierung berechnet werden kann, muss man erst bestimmen auf wie viele Pixel genau die Lokalisierung ist.
 
-Dafür benutzt man die Formel\ref{eq:maxDistance}, welche die Maximal Distanz ausrechnet\cite{noauthor_designing_2020}:
-\begin{equation}
-m = \frac{t}{2\tan\frac{b*f*p}{2r}}.
-\label{eq:maxDistance}
-\end{equation}
+Diese Pixel-Genauigkeit ist variabel, da mit mit Eckenpunkt-Verfeinerungs Methoden SubPixel-Genauigkeiten erreicht werden können.
+Diese Methoden sind Zeitaufwändig, da die Iterativ sind, aber erlauben eine bessere Genauigkeit, welches die Posenschätzung verbessert.
 
-und löst die Formel\ref{eq:maxDistance} nach p auf:
-\begin{equation}
-p = \frac{2r*\arctan\frac{t}{2*m}}{b*f} = \frac{2r*\arctan\frac{6.3cm}{400cm}}{9*114.9°}
-\label{eq:PixelperBits}
-\end{equation}
+Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der Bildauflösung keine Eckenpunkt-Verfeinerungs Methoden benutzt und ist somit:
+
+Pixel-Genauigkeit = q = 1px\\
 
 Danach muss die Grösse eines Bildpixels in der Realität berechnet werden.
 
 \begin{equation}
-g = \frac{313.334cm}{r}
+Pixel-Grösse cm/px = g = \frac{2*h*\tan\frac{\alpha}{2}}{r} = \frac{2*100cm*\tan\frac{57.45\degree}{2}}{r} = \frac{313.33cm}{r}
 \label{eq:PixelReal}
 \end{equation}
 
-Mit p und g aus der Formel \ref{eq:PixelReal} kann die Genauigkeit pro Meter berechnet werden.
+In der Formel \ref{eq:PixelReal} wird das horizontale Sichtfeld durch die horizontale Bildauflösung geteilt um so die Grösse jeden Pixels zu erhalten.
+Das horizontale Sichtfeld wird mit dem Tangents des Halbwinkel berechnet, welches zusammen mit der Höhe von einem Meter multipliziert wird.
+Da dies nur die halbe Sichtweite ist, wird diese verdoppelt um den ganzen horizontalen Sichtfeld zu erhalten.
+
+Mit p und g kann die Genauigkeit der Positionierung pro Meter berechnet werden.
 
 \begin{equation}
-q = g * p
+Genauigkeit pro Meter = t = g * q
 \label{eq:precision}
 \end{equation}
 
 Wenn man jetzt diese Formeln einsetzt für verschiedene Bildauflösungen.
 
 \begin{center}
-    \begin{tabular}{ c c c }
+    \begin{tabular}{ c c}
     \label{tab:resolutions}
-     Bildauflösung & p & q \\ 
-     1920x1080 & 3.35 & 0.547 \\  
-     3840x2160 & 6.701 & 0.547 \\
-     4096x2160 & 7.1481 & 0.5468 \\ 
+     Bildauflösung & Genauigkeit pro Meter\\ 
+     \hline
+     1920x1080 & 0.163cm \\  
+     3840x2160 & 0.082cm \\
+     4096x2160 & 0.076cm \\ 
 \end{tabular}
 \end{center}
 
-Wie man sieht ist die Genauigkeit  bei allen gleich.
+Wie die Tabelle zeigt, nimmt die Genauigkeit zu je grösser Die Bildauflösung wird. 
+Natürlich sind das Ideal-Werte, da Noise der Kamera und andere externen Bedingungen nicht beachtet wurden. 
