@@ -37,12 +37,6 @@ Folgende Anforderungen muss das Konzept erfüllen:
 
 
 
-\subsection{Konzept: Lokalisierung durch Machine Learning}
-
-In diesem Konzept geht es darum die Anchlagspunkte mithilfe von Objekterkennung durch YOLO zu erkennen und die Ist-Koordinaten durch 3D Lokalisierung zu erhalten. 
-Für dieses Konzept wird ein Machine Learning Modell benötigt, welches diese Aufgabe erfüllen kann. 
-Weiters würden gelabelte Bilder von den Lasten und Anschlagspunkte zum Lernen und weitere Bilder zum Testen benötigt.
-
 \subsection{Konzept: Lokalisierung durch AR Marker}
 
 In diesem Konzept geht es darum die Anschlagspunkte durch AR Marker, wie ArUco oder AprilTags, zu lokalisieren. Dabei werden die Marker um den Anschlagspunkt angeordnet. Wenn die Marker dann erkannt werden, kann durch Posenschätzung die 3D Koordinaten und 3D Rotationen berechnet werden. Durch die Anordnung der Marker kann dann die 3D Koordinaten vom Anschlagspunkt berechnet werden. 
@@ -148,10 +142,10 @@ Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benut
 Mindesthöhe = h = 75cm\\
 Halb-Distanz Mitte-Anschlagspunkt = d = 117.5cm\\
 
-Damit kann man den Bildwinkel berechnen welches beide Kameras benutzen müssen:
+Damit kann man den Bildwinkel \(\alpha\) berechnen welches beide Kameras benutzen müssen:
 
 \begin{equation}
-    Bildwinkel = \alpha = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5cm}{75cm} = 114.9\degree
+    \alpha = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5}{75} = 114.9\degree
     \label{eq:FOV}
 \end{equation}
 
@@ -168,10 +162,10 @@ Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der B
 
 Pixel-Genauigkeit = q = 1px\\
 
-Danach muss die Grösse eines Bildpixels in der Realität berechnet werden.
+Danach muss die Pixelgrösse \(g cm/p\), also die Grösse eines Bildpixels in der Realität, berechnet werden.
 
 \begin{equation}
-Pixel-Grösse cm/px = g = \frac{2*h*\tan\frac{\alpha}{2}}{r} = \frac{2*100cm*\tan\frac{57.45\degree}{2}}{r} = \frac{313.33cm}{r}
+g = \frac{2*h*\tan\frac{\alpha}{2}}{r} = \frac{2*100*\tan\frac{57.45\degree}{2}}{r} = \frac{313.33cm}{r}
 \label{eq:PixelReal}
 \end{equation}
 
@@ -179,10 +173,10 @@ In der Formel \ref{eq:PixelReal} wird das horizontale Sichtfeld durch die horizo
 Das horizontale Sichtfeld wird mit dem Tangents des Halbwinkel berechnet, welches zusammen mit der Höhe von einem Meter multipliziert wird.
 Da dies nur die halbe Sichtweite ist, wird diese verdoppelt um den ganzen horizontalen Sichtfeld zu erhalten.
 
-Mit p und g kann die Genauigkeit der Positionierung pro Meter berechnet werden.
+Mit \(p\) und \(g\) kann die Genauigkeit der Positionierung pro Meter \(t\)  berechnet werden.
 
 \begin{equation}
-Genauigkeit pro Meter = t = g * q
+t = g * q
 \label{eq:precision}
 \end{equation}
 
