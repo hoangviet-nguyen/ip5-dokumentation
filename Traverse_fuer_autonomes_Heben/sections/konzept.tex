@@ -1,5 +1,10 @@
 \section{Konzept}
 
+In diesem Kapitel wird das Konzept beschrieben, wie man eine Last Lokalisieren kann mit Marker.
+Als erstes werden die Anforderungen angeschaut, welche das System erfüllen muss. 
+Danach wird die Lokalisierung mit Marker beschrieben, sowie welche Eigenschaften die Marker haben müssen.
+Weiters werden die mindest Kamera Eigenschaften aufgezählt und berechnet.
+Zum Schluss wird das Konzept evaluiert.
 
 \subsection{Überblick}
 Ludwig Systems benötigt eine Lösung, welche von der Traverse aus die Ist-Koordinaten, die Rotation und Neigung der Last ausgibt. Das Konzept soll dieses Ziel erfüllen um in der Zukunft die Traverse automatisch bewegen zu können. Des Weiteren soll das Konzept sicherstellen, dass die Genauigkeiten ,welche vom Kunden gegeben wurde, eingehalten werden können. 
@@ -9,7 +14,7 @@ Lokalisiert.
 
 \subsection{Anforderungen}\label{requirements}
 
-Folgende Anforderungen muss das Konzept erfüllen:
+Folgende Anforderungen muss das System erfüllen:
 
 \begin{center}
 \begin{tabular}{ |l|l|}
@@ -34,7 +39,6 @@ Folgende Anforderungen muss das Konzept erfüllen:
     \hline
 \end{tabular}
 \end{center}
-
 
 
 \subsection{Konzept: Lokalisierung durch AR Marker}
@@ -108,9 +112,6 @@ f(x) = 7 \cdot A_\text{Quad} + 4 \cdot A_\text{SegKlein} + 4 \cdot A_\text{SegGr
 \label{sec:middlePoint}
 
 Um von den 3D Koordinaten der Markern zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation gemacht werden. Da die Berechnung zum Mittelpunkt auch mit nur einem Marker funktionieren muss, wird von jede Marker-Koordinaten in die Mitte des Keuz-Musters translatiert. Die Anordung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. Marker mit der ID 0 und 4 werden um + l und Marker mit ID 2 und 6 um -l in der X-Achse translatiert. Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l in der Y-Achse translatiert. Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
-
-\subsection{Evaluation Konzepte}
-Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
 
 \subsection{Kamera Eigenschaften}
 
@@ -195,3 +196,6 @@ Wenn man jetzt diese Formeln einsetzt für verschiedene Bildauflösungen.
 
 Wie die Tabelle zeigt, nimmt die Genauigkeit zu je grösser Die Bildauflösung wird. 
 Natürlich sind das Ideal-Werte, da Noise der Kamera und andere externen Bedingungen nicht beachtet wurden. 
+
+\subsection{Evaluation Konzepte}
+Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
