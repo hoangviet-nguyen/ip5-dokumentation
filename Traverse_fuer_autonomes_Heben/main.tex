@@ -15,6 +15,8 @@
 \author{IP5-Arbeit}    %Document Type => Technical Report, ...
 \date{Windisch, Dezember 2024}               %Place and Date
 
+\setcounter{tocdepth}{1}
+
 \begin{document}
 \pagenumbering{roman}	
 
@@ -57,15 +59,14 @@ Auftragsgeber              &    Ludwig System GmbH \& Co. KG\\[2ex]
 \tableofcontents
 \clearpage
 
-\listoffigures
-\listoftables
+
 \cleardoublepage
 
 %%---Einleitung--------------------------------------------------------------------------
+\pagenumbering{arabic}
 \include{sections/einleitung}
 
 %%---TEXT--------------------------------------------------------------------------------
-\pagenumbering{arabic}
 \include{sections/grundlagen}
 \include{sections/konzept}
 \include{sections/implementierung}

@@ -1,5 +1,10 @@
 \section{Konzept}
 
+In diesem Kapitel wird das Konzept beschrieben, wie man eine Last Lokalisieren kann mit Marker.
+Als erstes werden die Anforderungen angeschaut, welche das System erfüllen muss. 
+Danach wird die Lokalisierung mit Marker beschrieben, sowie welche Eigenschaften die Marker haben müssen.
+Weiters werden die mindest Kamera Eigenschaften aufgezählt und berechnet.
+Zum Schluss wird das Konzept evaluiert.
 
 \subsection{Überblick}
 Ludwig Systems benötigt eine Lösung, welche von der Traverse aus die Ist-Koordinaten, die Rotation und Neigung der Last ausgibt. Das Konzept soll dieses Ziel erfüllen um in der Zukunft die Traverse automatisch bewegen zu können. Des Weiteren soll das Konzept sicherstellen, dass die Genauigkeiten ,welche vom Kunden gegeben wurde, eingehalten werden können. 
@@ -9,7 +14,7 @@ Lokalisiert.
 
 \subsection{Anforderungen}\label{requirements}
 
-Folgende Anforderungen muss das Konzept erfüllen:
+Folgende Anforderungen muss das System erfüllen:
 
 \begin{center}
     \begin{tabular}{ |l|l| }
@@ -24,13 +29,6 @@ Folgende Anforderungen muss das Konzept erfüllen:
     \end{tabular}
     \end{center}
 
-
-
-\subsection{Konzept: Lokalisierung durch Machine Learning}
-
-In diesem Konzept geht es darum die Anchlagspunkte mithilfe von Objekterkennung durch YOLO zu erkennen und die Ist-Koordinaten durch 3D Lokalisierung zu erhalten. 
-Für dieses Konzept wird ein Machine Learning Modell benötigt, welches diese Aufgabe erfüllen kann. 
-Weiters würden gelabelte Bilder von den Lasten und Anschlagspunkte zum Lernen und weitere Bilder zum Testen benötigt.
 
 \subsection{Konzept: Lokalisierung durch AR Marker}
 
@@ -91,9 +89,6 @@ in der Y-Achse translatiert. Falls mehrere Marker erkannt werden, wird der Mitte
 \end{figure}
 
 
-\subsection{Evaluation Konzepte}
-Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
-
 \subsection{Kamera Eigenschaften}
 
 Um die Anforderungen vom\ref{requirements} zu erfüllen braucht das System eine Kamera, welche sicherstellt dass die Marker genau erkannt werden können.
@@ -124,10 +119,10 @@ Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benut
 Mindesthöhe = h = 75cm\\
 Halb-Distanz Mitte-Anschlagspunkt = d = 117.5cm\\
 
-Damit kann man den Bildwinkel berechnen welches beide Kameras benutzen müssen:
+Damit kann man den Bildwinkel \(\alpha\) berechnen welches beide Kameras benutzen müssen:
 
 \begin{equation}
-    Bildwinkel = \alpha = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5cm}{75cm} = 114.9\degree
+    \alpha = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5}{75} = 114.9\degree
     \label{eq:FOV}
 \end{equation}
 
@@ -144,10 +139,10 @@ Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der B
 
 Pixel-Genauigkeit = q = 1px\\
 
-Danach muss die Grösse eines Bildpixels in der Realität berechnet werden.
+Danach muss die Pixelgrösse \(g cm/p\), also die Grösse eines Bildpixels in der Realität, berechnet werden.
 
 \begin{equation}
-Pixel-Grösse cm/px = g = \frac{2*h*\tan\frac{\alpha}{2}}{r} = \frac{2*100cm*\tan\frac{57.45\degree}{2}}{r} = \frac{313.33cm}{r}
+g = \frac{2*h*\tan\frac{\alpha}{2}}{r} = \frac{2*100*\tan\frac{57.45\degree}{2}}{r} = \frac{313.33cm}{r}
 \label{eq:PixelReal}
 \end{equation}
 
@@ -155,10 +150,10 @@ In der Formel \ref{eq:PixelReal} wird das horizontale Sichtfeld durch die horizo
 Das horizontale Sichtfeld wird mit dem Tangents des Halbwinkel berechnet, welches zusammen mit der Höhe von einem Meter multipliziert wird.
 Da dies nur die halbe Sichtweite ist, wird diese verdoppelt um den ganzen horizontalen Sichtfeld zu erhalten.
 
-Mit p und g kann die Genauigkeit der Positionierung pro Meter berechnet werden.
+Mit \(p\) und \(g\) kann die Genauigkeit der Positionierung pro Meter \(t\)  berechnet werden.
 
 \begin{equation}
-Genauigkeit pro Meter = t = g * q
+t = g * q
 \label{eq:precision}
 \end{equation}
 
@@ -177,3 +172,6 @@ Wenn man jetzt diese Formeln einsetzt für verschiedene Bildauflösungen.
 
 Wie die Tabelle zeigt, nimmt die Genauigkeit zu je grösser Die Bildauflösung wird. 
 Natürlich sind das Ideal-Werte, da Noise der Kamera und andere externen Bedingungen nicht beachtet wurden. 
+
+\subsection{Evaluation Konzepte}
+Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
