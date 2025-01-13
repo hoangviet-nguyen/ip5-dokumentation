@@ -12,28 +12,17 @@ Lokalisiert.
 Folgende Anforderungen muss das Konzept erfüllen:
 
 \begin{center}
-\begin{tabular}{ |l|l|}
-    \hline
-    Anforderung                            & Beschreibung \\
-    \hline
-    Genauigkeit X Koordinate & Die Ungenauigkeit der X-Koordinaten darf +- 2cm betragen.\\
-    \hline
-    Genauigkeit Y Koordinate & Die Ungenauigkeit der Y-Koordinaten darf +- 2cm betragen. \\
-    \hline
-    Genauigkeit Z Koordinate & Die Ungenauigkeit der Z-Koordinaten darf +- 1cm betragen. \\
-    \hline
-    Genauigkeit Rotation & Die Ungenauigkeit der Rotation darf +- 2° betragen.\\
-    \hline
-    Genauigkeit Neigung & Die Ungenauigkeit der Neigung darf +- 1° betragen. \\
-    \hline
-    Kalibrierung der Kamera & Die Kamerakalibrierung soll möglich sein\\
-    \hline
-    Speicherung der Kalibrierung & Die Kalibrierungs Daten sollten abgespeichert werden. \\ 
-    \hline
-    Anschlagspunkt Koordinaten & Die Koordinaten der Anschlagpunkte sollte ausgegeben werden\\
-    \hline
-\end{tabular}
-\end{center}
+    \begin{tabular}{ |l|l| }
+        \hline
+        \textbf{Anforderung} & \textbf{Beschreibung} \\ \hline
+        X/Y Genauigkeit & Ungenauigkeit: ±2 cm \\ \hline
+        Z Genauigkeit & Ungenauigkeit: ±1 cm \\ \hline
+        Rotation & Ungenauigkeit: ±2° \\ \hline
+        Neigung & Ungenauigkeit: ±1° \\ \hline
+        Kamera Kalibrierung & Kalibrierung und Speicherung möglich \\ \hline
+        Anschlagspunkte & Ausgabe der Koordinaten \\ \hline
+    \end{tabular}
+    \end{center}
 
 
 
@@ -54,66 +43,53 @@ Wie in der Abbildung (ref) zu sehen ist werden 4 Marker in einem Kreuz-Muster um
 (redundanz erhöht stabilität)
 
 \clearpage
-\subsubsection{Markergröße}
+\subsubsection{Markergrösse}
 
-Die Markergröße ist von entscheidender Bedeutung, um die Anschlagspunkte präzise 
-zu lokalisieren und die Berechnungen für die Ausrichtung der Traverse durchzuführen. 
-Ziel ist es, den Marker so groß wie möglich zu gestalten, um die Genauigkeit der 
-Distanzberechnung zu maximieren. Abbildung \ref{fig:marker} veranschaulicht, wie die Markergröße 
-basierend auf einem gegebenen Radius \( R \) maximiert werden kann.
+Die Markergrösse spielt eine zentrale Rolle, um die Anschlagspunkte präzise zu lokalisieren und 
+die Berechnungen für die Ausrichtung der Traverse zuverlässig durchzuführen. Ein möglichst grosser 
+Marker erhöht die Genauigkeit der Distanzberechnung und trägt damit zur Effizienz des Systems bei. 
+Abbildung \ref{fig:marker} illustriert, wie die optimale Markergrösse in Abhängigkeit vom gegebenen 
+Radius \( R \) berechnet werden kann.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{graphics/marker.png}
-    \caption{Diagramm zur Berechnung der Markergröße}
+    \includegraphics[width=0.5\linewidth]{graphics/marker.png}
+    \caption{Diagramm zur Berechnung der Markergrösse}
     \label{fig:marker}
 \end{figure}
 
-Um die Fläche der Marker (dargestellt als blaue Quadrate) zu maximieren, berechnen wir die Fläche des Quadrats unter Berücksichtigung der Teilflächen. Die Gesamtfläche des Kreises wird durch die folgende Formel beschrieben:
+Die Berechnung der Markergrösse \( x \) basiert auf dem Satz des Pythagoras und kann durch die folgende Funktion beschrieben werden:
 
 \[
-A_\text{Kreis} = \pi \cdot R^2
+f(R) = 2R \cdot \frac{\sqrt{10}}{10}
 \]
 
-Die Fläche eines einzelnen Quadrats ergibt sich aus:
+Für den vom Kunden vorgegebenen Radius von \( R = 10 \, \mathrm{cm} \) ergibt sich:
 
 \[
-A_{\text{Quad}} = x^2
+f(10) = 2 \cdot 10 \cdot \frac{\sqrt{10}}{10} = 2 \cdot \sqrt{10}
 \]
 
-Die Fläche der vier kleinen und vier großen Kreissegmente wird mithilfe der folgenden Formel berechnet:
-
-\[
-A_\text{Kreisegment} = \frac{1}{2} \cdot R^2 \cdot (\alpha - \sin(\alpha))
-\]
-
-Dabei kann der Winkel \(\alpha\) über die Sehnenlänge \(c\) berechnet werden, die in Abbildung \ref{fig:marker} in Rot und Schwarz dargestellt ist. Üblicherweise wird \(c\) in der Literatur als Sehnenlänge bezeichnet:
-
-\[
-c_\text{klein} = x
-\]
-
-\[
-c_\text{gross} = \sqrt{2} \cdot x
-\]
-
-Der Winkel \(\alpha\) ergibt sich aus der folgenden Beziehung:
-
-\[
-\alpha = 2 \cdot \arcsin\left(\frac{c}{2R}\right)
-\]
-
-Mithilfe der berechneten Teilflächen kann nun eine quadratische Funktion konstruiert werden, die die Beziehung zwischen der Markergröße und dem gegebenen Radius \(R\) beschreibt. Um die maximale Fläche zu ermitteln, lösen wir die Gleichung durch Bestimmung der Nullstellen:
-
-\[
-f(x) = 7 \cdot A_\text{Quad} + 4 \cdot A_\text{SegKlein} + 4 \cdot A_\text{SegGross} - \pi \cdot R^2
-\]
+Diese Formel liefert eine direkte Methode, die Markergrösse an unterschiedliche Anforderungen anzupassen und dabei eine hohe Präzision in der Berechnung zu gewährleisten.
 
 
 \subsubsection{Mittelpunkt-Berechnung der Marker Anordnung}
 \label{sec:middlePoint}
 
-Um von den 3D Koordinaten der Markern zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation gemacht werden. Da die Berechnung zum Mittelpunkt auch mit nur einem Marker funktionieren muss, wird von jede Marker-Koordinaten in die Mitte des Keuz-Musters translatiert. Die Anordung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. Marker mit der ID 0 und 4 werden um + l und Marker mit ID 2 und 6 um -l in der X-Achse translatiert. Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l in der Y-Achse translatiert. Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
+Um von den 3D Koordinaten der Markern zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation 
+gemacht werden. Da die Berechnung zum Mittelpunkt auch mit nur einem Marker funktionieren muss, wird von jede 
+Marker-Koordinaten in die Mitte des Keuz-Musters translatiert. Die Anordung der Marker und die damit zusammenhängende 
+Marker-ID bestimmt welche Translation durchgeführt werden muss. Marker mit der ID 0 und 4 werden um + l und Marker 
+mit ID 2 und 6 um -l in der X-Achse translatiert. Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l
+in der Y-Achse translatiert. Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/marker_anordnung.png}
+    \caption{Marker Anordnung für Mittelpunkt rechnung}
+    \label{fig:marker_anordnung}
+\end{figure}
+
 
 \subsection{Evaluation Konzepte}
 Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
