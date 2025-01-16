@@ -52,9 +52,29 @@ Dabei wird fortan die Rotation um die Y-Achse der Traverse als Neigen definiert 
 um die Z-Achse der Traverse als Rotieren definiert.
 
 \subsection{Stand der Forschung}
+Das Problem der Erkennung von Anschlagpunkten kann auf die Disziplin der Objektdetektion reduziert werden.
+In der Arbeit von \cite{yong_object_2023} wird eine Methode vorgestellt, um mithilfe von Deep-Learning-Algorithmen 
+in Kombination mit Ultraschallsensoren Unfälle auf Baustellen zu vermeiden. Diese Technologie wird genutzt, um die
+Umgebung eines Krans zu überwachen und bei Bedarf einzugreifen. Das System integriert dabei eine Objekterkennung mit
+einer Internet-Protokoll (IP)-Kamera zur Identifikation von Bauarbeitern im Gefahrenbereich und Ultraschallsensoren zur 
+Messung von Abständen zu Hindernissen. Die Feldtests der entwickelten Lösung zeigten vielversprechende Ergebnisse, die 
+zur Erhöhung der Sicherheit auf Baustellen beitragen können.
+
+Eine weitere Arbeit, die den Nutzen von maschinellem Lernen auf Baustellen untersucht, ist \cite{zhou_image-based_2021}. 
+In dieser Fallstudie wird ein KI-gestütztes, bildbasiertes Modell entwickelt, das Baustellenelemente erkennen und ihre 
+Position bestimmen kann. Die vorgestellte Lösung kombiniert Ansätze wie Faster-R-CNN, Hough-Transformationen und eine Vertex-basierte
+Bestimmungsmethode, um präzise Informationen zu Objekten, wie deren Koordinaten, Größe und Farbe, zu extrahieren. Diese Daten werden
+in einem BIM-Datenbankformat (Building Information Modeling) weiterverarbeitet, um die automatische Steuerung von Kränen zu unterstützen.
+Der Ansatz stellt eine grundlegende Technologie für die Automatisierung von Kränen dar und fördert die Weiterentwicklung von Automatisierung 
+und Robotik in der Bauindustrie.
+
+Schließlich untersucht die Arbeit von \cite{nasaMarkerReport} die Entwicklung und den Vergleich zweier Algorithmen zur Erkennung von 
+Fiducial Markern. Ziel der Studie war es, mithilfe dieser Marker die Position und Orientierung des Roboters PUMA 560 präzise zu bestimmen. 
+Die Marker bestehen aus einfachen geometrischen Formen wie Kreisen, Dreiecken und Quadraten. Die Arbeit vergleicht einen Algorithmus basierend 
+auf Momentinvarianten mit einem zweiten, der eine diskrete Psi-S-Kurve verwendet. Letzterer erwies sich als überlegen und zeigte eine höhere 
+Zuverlässigkeit bei der Marker-Erkennung. Diese Forschung liefert wertvolle Einblicke in die präzise Positionsbestimmung in Robotikanwendungen.
 
 
-\clearpage
 \subsection{Fiducial Marker}
 Fiducial Marker sind ein essenzielles Werkzeug in der modernen Bildverarbeitung und spielen eine 
 zentrale Rolle in der räumlichen Orientierung und Positionsbestimmung. Insbesondere in Anwendungen 
