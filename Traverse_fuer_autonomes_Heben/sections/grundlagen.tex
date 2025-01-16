@@ -6,6 +6,15 @@ Da wir Fiducial Marker zur Erkennung der Anschlagpunkte verwenden, erläutern wi
 Erkennung dieser Marker sowie zur Bestimmung ihrer Position relativ zur Kamera. Abschliessend stellen wir die
 Frameworks vor, die im Projekt verwendet wurden.
 
+\subsection{Problemstellung}
+Ludwig System, ein Hersteller von Werkzeugen für Baustellen, entwickelt derzeit eine autonome Traverse. Damit diese 
+Traverse autonom agieren kann, müssen drei wesentliche Ziele erreicht werden: die automatische Erkennung einer Last, 
+die mechanische Ausrichtung der Traverse basierend auf der erkannten Last und den Anschlagspunkten sowie die Verriegelung 
+der Haken an den Anschlägen. Während Ludwig System die Entwicklung der letzten beiden Schritte übernimmt, konzentriert sich
+unsere Arbeit auf die Erfüllung des ersten Schrittes. Hierbei geht es um die Auswahl geeigneter Sensoren und die Implementierung
+praktikabler Methoden, die es der Traverse ermöglichen, Lasten und Anschlagspunkte zu erkennen. Zur besseren Verständlichkeit der 
+folgenden Ausführungen werden im nächsten Schritt die relevanten Schlüsselbegriffe definiert.
+
 
 \subsubsection{Anwendungsdomäne}
 Das Abhängen von Lasten per Hand ist nicht nur zeitaufwendig, sondern oft auch gefährlich. 
@@ -15,15 +24,14 @@ Lasten aus sicherer Entfernung anzuheben und auszubalancieren. Besonders beliebt
 die Traverse, die speziell für den Transport von Dachelementen und Wänden entwickelt wurde. 
 Allerdings müssen aktuelle Versionen noch manuell an die Last befestigt werden, 
 was besonders bei hohen Wänden zeitaufwendig und gefährlich sein kann. 
-Abbildung 2.2 illustriert die Nutzung der Traverse beim Transport eines Dachelements.
+Abbildung \ref{fig:ludwig} illustriert die Nutzung der Traverse und des Haken.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{graphics/Betonelement.jpg}\hfill%
-    \caption{Ludwig Hook mit Betonelement}
-    \centering
     \includegraphics[width=0.5\textwidth]{graphics/Traverse.jpg}
-    \caption{Traverse mit Dachelement}
+    \caption{Ludwig Hook und Ludwig Traverse}
+    \label{fig:ludwig}
 \end{figure}
 
 \subsubsection{Last}
@@ -130,9 +138,6 @@ Ihre Anwendung wird im weiteren Verlauf dieser Arbeit genauer beleuchtet, insbes
 Kontext der automatisierten Lokalisierung von Anschlagpunkten.
 
 
-
-
-
 \clearpage
 \subsubsection{Posenschätzung durch AR Marker}
 Das Problem der Posenberechnung stammt aus dem Bereich der erweiterten 
@@ -157,7 +162,7 @@ beschrieben.
 
 Mithilfe der beiden Matrizen lässt sich eine Gleichung aufstellen, die \( N \) Punkte 
 in der 3D-Welt auf 2D-Bildpunkte projiziert. Dabei entstehen die Rotationsmatrix und der 
-Translationsvektor, die in der Transformationsmatrix \({}^{c}\mathbf{T}_{w}\) enthalten sind.
+Translationsvektor, die in der Transformationsmatrix \(\mathbf{T}^c_{w}\) enthalten sind.
 Mit der Schätzung dieser Matrix können Weltkoordinaten in Kamerakoordinaten transformiert 
 werden.
 
@@ -169,7 +174,7 @@ v \\
 1
 \end{bmatrix}
 =
-\mathbf{A} \mathbf{\Pi} {}^{c}\mathbf{T}_{w}
+\mathbf{A} \mathbf{\Pi} \mathbf{T}^c_{w}
 \begin{bmatrix}
 X_w \\ 
 Y_w \\ 
@@ -219,7 +224,7 @@ Z_c \\
 1
 \end{bmatrix}
 =
-{}^{c}\mathbf{T}_{w}
+\mathbf{T}^c_{w}
 \begin{bmatrix}
 X_w \\ 
 Y_w \\ 
