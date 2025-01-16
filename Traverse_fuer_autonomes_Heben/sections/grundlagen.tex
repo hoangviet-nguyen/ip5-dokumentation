@@ -1,12 +1,11 @@
 \section{Grundlagen}
+Wir beginnen mit einem Überblick über das Problem und die Zielgruppe unserer Kunden.
+Anschliessend führen wir grundlegende Begriffe ein, die für das Verständnis unseres Projekts
+wichtig sind. Im nächsten Schritt betrachten wir ähnliche Projekte, die vergleichbare Herausforderungen adressieren.
+Da wir Fiducial Marker zur Erkennung der Anschlagpunkte verwenden, erläutern wir die Grundlagen zur 
+Erkennung dieser Marker sowie zur Bestimmung ihrer Position relativ zur Kamera. Abschliessend stellen wir die
+Frameworks vor, die im Projekt verwendet wurden.
 
-\subsection{Überblick}
-Um unseren Lösungsansatz nachvollziehen zu können, ist es erforderlich, 
-die Problemstellung detailliert zu analysieren. Im ersten Schritt wird betrachtet, 
-welche Zielgruppe Ludwig System anspricht und welche spezifischen Optimierungen 
-das Unternehmen verfolgt. Im Anschluss werden bestehende Lösungsansätze verglichen, 
-um deren Stärken und Schwächen zu bewerten und als Grundlage 
-für die Entwicklung eines verbesserten Systems zu nutzen.
 
 \subsubsection{Anwendungsdomäne}
 Das Abhängen von Lasten per Hand ist nicht nur zeitaufwendig, sondern oft auch gefährlich. 
@@ -54,33 +53,26 @@ um die Z-Achse der Traverse als Rotieren definiert.
 
 \subsection{Stand der Forschung}
 
-\subsubsection{Arbeit: Objekterkennung und Distanzmessung für Kollisionsvermeidung bei Lastenhebung}
-(Arbeit: Object Detection and Distance Measurement Algorithm for Collision Avoidance of Precast Concrete Installation during Crane Lifting Process\cite{yong_object_2023} Erklären)
-
-\subsubsection{Arbeit: Objekterkennung und 3D-basierte Objektortung für automatische Lastenhebung}
-(Arbeit: Image-based onsite object recognition for automatic crane lifting tasks\cite{zhou_image-based_2021} Erklären)
-
-\subsubsection{Arbeit: Erkennung von auf Robotersystemen angebrachten Passermarken}
 
 \clearpage
-\subsection{Passermarker}
-Passermarker sind ein essenzielles Werkzeug in der modernen Bildverarbeitung und spielen eine 
+\subsection{Fiducial Marker}
+Fiducial Marker sind ein essenzielles Werkzeug in der modernen Bildverarbeitung und spielen eine 
 zentrale Rolle in der räumlichen Orientierung und Positionsbestimmung. Insbesondere in Anwendungen 
-wie der automatisierten Lastenhebung, wie sie von Ludwig System angestrebt wird, können Passermarker 
+wie der automatisierten Lastenhebung, wie sie von Ludwig System angestrebt wird, können Fiducial Marker 
 helfen, Anschlagpunkte präzise zu lokalisieren.
 
 Diese Marker, darunter Barcodes, QR-Codes oder speziell entwickelte AR-Marker, liefern visuelle 
 Referenzen, die von Kamerasystemen erkannt und interpretiert werden können. Damit ermöglichen sie es, 
 Objekte im Raum genau zu positionieren oder auszurichten.
 
-In diesem Abschnitt untersuchen wir die Grundlagen von Passermarkern und beleuchten ihre spezifischen 
+In diesem Abschnitt untersuchen wir die Grundlagen von Fiducial Marker und beleuchten ihre spezifischen 
 Einsatzmöglichkeiten in unserem Szenario, insbesondere im Kontext der automatisierten Ausrichtung von 
 Anschlagpunkten auf der Traverse.
 
-\subsubsection{Einführung Passermarker}
-Passermarker sind quadratische Muster, die auf flachen Oberflächen aufgedruckt werden. 
+\subsubsection{Einführung Fiducial Marker}
+Fiducial Marker sind quadratische Muster, die auf flachen Oberflächen aufgedruckt werden. 
 Sie dienen als visuelle Referenzpunkte, die von Kamerasystemen erkannt und interpretiert 
-werden können. Es gibt verschiedene Arten von Passermarkern, die je nach Anwendung 
+werden können. Es gibt verschiedene Arten von Fiducial Marker, die je nach Anwendung 
 unterschiedliche Eigenschaften und Einsatzmöglichkeiten bieten. 
 Abbildung \ref{fig:marker_types} zeigt eine Auswahl solcher Marker.
 
@@ -96,7 +88,7 @@ darin gespeichert werden. Dabei muss jedoch der Informationsgehalt immer an die 
 Anforderungen der Anwendung angepasst werden, um eine optimale Balance zwischen Grösse, Lesbarkeit 
 und Informationsdichte zu gewährleisten.
 
-In der Robotik gehören AprilTags und AruCo-Marker zu den meistgenutzten Passermarkern. 
+In der Robotik gehören AprilTags und AruCo-Marker zu den meistgenutzten Fiducial Marker. 
 Ihre Beliebtheit basiert auf ihrer Robustheit und Effizienz bei der Lokalisierung in 
 dreidimensionalen Räumen. Diese Marker wurden speziell entwickelt, um Verzerrungen und 
 schwierige Lichtverhältnisse zu kompensieren und eine präzise Posenschätzung zu ermöglichen. 
@@ -219,8 +211,8 @@ Z_w \\
 \end{bmatrix}
 \]
 
-\subsubsection{Probleme mit Passermarkern}
-Mithilfe von Passermarkern können wir Anschlagpunkte erkennen und dessen Position bestimmen.
+\subsubsection{Probleme mit Fiducial Marker}
+Mithilfe von Fiducial Marker können wir Anschlagpunkte erkennen und dessen Position bestimmen.
 Zusätzlich können wir mit deren Hilfe ausrechnen wie sich die Traverse Positionieren musss, damit
 sich über den den Anschlagspunkten befindent.
 
@@ -229,7 +221,7 @@ Sie sind besonders empfindlich gegenüber äusseren Einflüssen. Bereits geringe
 wie etwa Schmutz oder Staub auf den Kanten, können die Erkennung erheblich beeinträchtigen 
 oder sogar vollständig verhindern.
 
-Darüber hinaus sind Passermarker anfällig für ungünstige Lichtverhältnisse. Blendung, Schatten 
+Darüber hinaus sind Fiducial Marker anfällig für ungünstige Lichtverhältnisse. Blendung, Schatten 
 oder Reflexionen können die Erkennungsrate deutlich verringern, insbesondere in Aussenbereichen 
 oder bei wechselnden Lichtbedingungen. Auch der Erkennungsbereich der Marker ist begrenzt: Marker 
 müssen sich in einem bestimmten Abstand und Winkel zur Kamera befinden um erkannt zu werden.
@@ -240,76 +232,6 @@ sich Marker durch äussere Einflüsse, wie Witterung oder mechanische Belastung,
 Erkennung dauerhaft zu gewährleisten, müssen sie regelmässig ersetzt oder neu angebracht werden.
 
 
-
-\subsection{Objekterkennung durch Machine Learning}
-Künstliche Intelligenz (KI) spielt eine immer wichtigere Rolle in verschiedenen Bereichen 
-unseres Lebens und wird auch in Zukunft zahlreiche Innovationen vorantreiben. 
-Bereits heute revolutioniert sie viele Branchen, darunter die Automatisierung, 
-Bildverarbeitung und Robotik. Eine besonders relevante Disziplin innerhalb der KI ist die 
-Objekterkennung, die mithilfe von neuronalen Netzen umgesetzt wird.
-
-Speziell für die vorliegende Problemstellung könnte eine KI entwickelt werden, die in der 
-Lage ist, Anschlagpunkte unterschiedlicher Arten präzise zu erkennen und zu markieren. 
-Durch den Einsatz von Machine-Learning-Modellen kann die Erkennung kontinuierlich verbessert 
-werden, indem sie aus neuen Daten lernt und sich an verschiedene Szenarien und Bedingungen 
-anpasst.
-
-\subsubsection{Grundlagen Objekterkennung mit Neuronalen Netzen}
-Neuronale Netzwerke sind inspiriert vom menschlichen Gehirn, bei dem Informationen zwischen Neuronen weitergegeben 
-werden. Dabei verarbeitet jedes Neuron Signale und leitet sie verstärkt oder abgeschwächt an das nächste Neuron weiter.
-Abbildung \ref{fig:humanCell} zeigt eine schematische Darstellung, wie Neuronen im menschlichen Gehirn miteinander 
-kommunizieren.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\linewidth]{graphics/human_model.png}
-    \caption{Biologisches Neuron im menschlichen Gehirn}
-    \label{fig:humanCell}
-\end{figure}
-
-Ähnlich wie das menschliche Gehirn Muster wie Kanten und Farben erkennen kann, werden künstliche neuronale Netzwerke 
-darauf trainiert, Muster in numerischen Daten zu identifizieren. Maschinen sehen jedoch keine Bilder direkt, sondern 
-verarbeiten Zahlenwerte (z. B. Pixelintensitäten), die aus den Bildern extrahiert werden. Dazu benötigen neuronale 
-Netzwerke Parameter, die während des Trainingsprozesses optimiert werden. Zusätzlich wird ein Fehlersignal berechnet, 
-wenn das Modell falsche Vorhersagen trifft, um das Lernen zu steuern.
-
-Abbildung \ref{fig:network} zeigt die Struktur eines neuronalen Netzwerks mit drei Schichten: der Eingabeschicht (Input Layer), 
-den verborgenen Schichten (Hidden Layers) und der Ausgabeschicht (Output Layer). Im Input Layer werden die Pixelwerte 
-eines Bildes verarbeitet. Diese Werte werden mit den Gewichten der Verbindungen zwischen den Neuronen multipliziert, 
-aufsummiert und an die nächste Schicht weitergegeben. In den Hidden Layers werden diese Berechnungen weitergeführt, 
-bis im Output Layer eine Wahrscheinlichkeitsverteilung ausgegeben wird, die anzeigt, ob ein Anschlagspunkt im Bild 
-vorhanden ist.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{graphics/network.png}
-    \caption{Aufbau eines neuronalen Netzwerks}
-    \label{fig:network}
-\end{figure}
-
-Damit ein Modell zuverlässig Anschlagspunkte erkennen kann, benötigt es Trainingsdaten, die korrekt klassifiziert sind. 
-Während des Trainingsprozesses wird der Output des Modells mit den tatsächlichen Zielwerten verglichen, um den Verlust (Error) 
-zu berechnen. Ziel ist es, diesen Verlust so gering wie möglich zu halten. Dies geschieht durch Optimierungsverfahren wie den 
-Gradientenabstieg, bei dem die Ableitung der Verlustfunktion berechnet und zur Anpassung der Gewichte im Netzwerk verwendet wird.
-
-
-
-\subsubsection{Probleme mit Machine Learning}
-Künstliche Intelligenz (KI) ist ein faszinierendes und vielversprechendes Thema, bringt 
-jedoch einige Herausforderungen mit sich. Eines der Hauptprobleme ist der immense Bedarf 
-an qualitativ hochwertigen Daten, die oft manuell aufbereitet und annotiert werden müssen. 
-Dieser Prozess ist zeitaufwendig und erfordert erhebliche personelle und technische Ressourcen.
-
-Darüber hinaus sind KI-Systeme in der Regel äusserst rechenintensiv. Wenn solche Systeme auf
-einer Baustelle eingesetzt werden sollen, ist es oft notwendig, die Berechnungen remote in 
-leistungsstarken Rechenzentren durchzuführen. Dies führt nicht nur zu zusätzlichen Kosten, 
-sondern auch zu potenziellen Verzögerungen durch Latenzzeiten bei der Datenübertragung.
-
-Ein weiteres Problem besteht darin, dass die KI allein anhand von Bilddaten ohne zusätzliche 
-Informationen, wie etwa den genauen Dimensionen der Anschlagspunkte, Schwierigkeiten hat, 
-präzise Berechnungen für die korrekte Ausrichtung der Traverse durchzuführen.
-Dies verdeutlicht die Notwendigkeit einer Kombination aus KI-gestützter Objekterkennung und 
-zusätzlichen sensorischen Daten, um zuverlässige Ergebnisse zu erzielen.
 
 \subsection{Kameras}
 Um die Anschlagpunkte zuverlässig erkennen zu können, sind geeignete Kamerasysteme
@@ -330,7 +252,7 @@ Bilder.
 Das FOV (Field of View) einer Kamera beschreibt den Bereich der Szene,
 den die Kamera sehen oder aufnehmen kann. Es ist ein grundlegender 
 Parameter, der angibt, wie viel von der Umgebung eine Kamera in einem 
-Bild oder Video erfassen kann. Je höher das FOV, desto größer ist 
+Bild oder Video erfassen kann. Je höher das FOV, desto grösser ist 
 jedoch die Verzerrung, die im Bild entsteht.
 Abbildung \ref{fig:fisheye} zeigt, wie eine starke Verzerrung aussieht,
 die typischerweise bei Weitwinkel- oder Fisheye-Objektiven auftritt.
@@ -369,7 +291,7 @@ intrinsischen Parameter der Kamera, wie:
     \item \textbf{Verzerrungskoeffizienten}: Parameter, die die Stärke der Verzerrungen beschreiben.
 \end{itemize}
 
-Um eine Kamera zu kalibrieren, werden mehrere Fotos eines regelmäßigen Musters 
+Um eine Kamera zu kalibrieren, werden mehrere Fotos eines regelmässigen Musters 
 benötigt, beispielsweise eines Schachbretts. Die Bilder sollten aus verschiedenen 
 Distanzen und Blickwinkeln aufgenommen werden, um eine möglichst breite Datenbasis 
 zu schaffen. Dabei ist es wichtig die Kamera zu bewegen, während das Muster, 
@@ -380,7 +302,7 @@ Beispiele und erklärt detailliert, wie die Kalibrierung implementiert werden
 kann.
 
 
-\subsection{Vorhandene Frameworks}
+\subsection{Benutzte Frameworks}
 OpenCV ist eine populäre Open-Source-Bibliothek für verschiedene Bildverarbeitungssoftware.
 Open Source bedeutet, dass die Funktionen für jeden frei verfügbar sind. OpenCV bietet 
 umfangreiche Funktionen, um AruCo-Marker zu erkennen und eine Kamerakalibration durchzuführen.
