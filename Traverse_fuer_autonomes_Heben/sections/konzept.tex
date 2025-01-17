@@ -419,26 +419,31 @@ gemacht werden.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[h]{0.5\textwidth}
+      \centering
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_1.png}
         \caption{Mittelpunkt Berechnung mit 1 erkannten Marker}
         \label{fig:marker_anordnung1}
     \end{subfigure}
     \begin{subfigure}[h]{0.5\textwidth}
+      \centering
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_2.png}
         \caption{Mittelpunkt Berechnung mit 2 erkannten Marker}
         \label{fig:marker_anordnung2}
     \end{subfigure}
     \begin{subfigure}[h]{0.5\textwidth}
+        \centering
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_3.png}
         \caption{Mittelpunkt Berechnung mit 3 erkannten Marker}
         \label{fig:marker_anordnung3}
     \end{subfigure}
     \begin{subfigure}[h]{0.5\textwidth}
+      \centering
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_4.png}
         \caption{Mittelpunkt Berechnung mit 4 erkannten Marker}
         \label{fig:marker_anordnung4}
     \end{subfigure}
     \begin{subfigure}[h]{0.5\textwidth}
+      \centering
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_2_Rotation.png}
         \caption{Mittelpunkt Berechnung mit 2 erkannten Marker und Rotation R}
         \label{fig:marker_anordnung2Rot}
@@ -483,7 +488,7 @@ Die Kamera sollte von der Mindesthöhe, also 75cm, beide Anschlagspunkte sehen k
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{graphics/KameraFOV.png}\hfill%
+    \includegraphics[width=\linewidth]{graphics/KameraFOV.png}\hfill%
     \caption{Kameras decken die Last komplett ab}
     \label{fig:FOV}
 \end{figure}
@@ -492,10 +497,16 @@ Um einen grossen horizontalen BildWinkel zu vermeiden, wird wie in der Abbildung
 Beide Kameras sollten für je ein Anschlagspunkt verantwortlich sein und so im ideal Fall, wenn die Traverse direkt über der Last ist, mindestens von der Mitte der Last bis zum Anschlagspunkt reichen.
 Beide Kameras sind dann 117.5cm von der Traversen Mitte entfernt.
 
-Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benutzt:
+Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benutzt \( h\) steht hierbei
+für die Mindesthöhe und \(d\) für die Halbe Distanz von der Mitte zum Anschalgspunkt:
 
-Mindesthöhe = h = 75cm\\
-Halb-Distanz Mitte-Anschlagspunkt = d = 117.5cm\\
+\[
+h = 75 cm
+\]
+
+\[
+d = 117.5 cm
+\]
 
 Damit kann man den Bildwinkel \(\alpha\) berechnen welches beide Kameras benutzen müssen:
 
@@ -515,8 +526,9 @@ Diese Methoden sind Zeitaufwändig, da die Iterativ sind, aber erlauben eine bes
 
 Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der Bildauflösung keine Eckenpunkt-Verfeinerungs Methoden benutzt und ist somit:
 
-
-Pixel-Genauigkeit = \(q = 1\text{ px}\)\\
+\[
+q = 1\text{px}
+\]
 
 Danach muss die Pixelgrösse \(g cm/p\), also die Grösse eines Bildpixels in der Realität, berechnet werden.
 
