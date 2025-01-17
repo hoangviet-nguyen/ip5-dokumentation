@@ -29,20 +29,20 @@ erfordert.
 
 Ein weiterer Ansatz ist die Verwendung von Passmarkern. Diese Marker haben den Vorteil, dass sie in standardisierten Grössen verfügbar sind, was 
 ihre Erkennung erleichtert \cite{astrobee2023}. Durch die Analyse der Eckpunkte eines Markers kann die Position relativ zur Kamera bestimmt werden 
-\cite{localizationSystem}. Zusätzlich ermöglicht die Kodierung einer eindeutigen ID auf dem Marker die Feststellung seiner Ausrichtung. Theoretisch
+\cite{localizationSystem}. Zusätzlich ermöglicht die Codierung einer eindeutigen ID auf dem Marker die Feststellung seiner Ausrichtung. Theoretisch
 erlaubt dies dem Kranführer, die Traverse präzise auszurichten. Der Einsatz solcher Markierungssysteme wird bereits in der Robotik erfolgreich zur 
-Positionsbestimmung von Objekten genutzt, was deren Effektivität und Zuverlässigkeit unterstreicht \cite{localizationSystem}.
+Positions Bestimmung von Objekten genutzt, was deren Effektivität und Zuverlässigkeit unterstreicht \cite{localizationSystem}.
 
 Die Arbeiten von \cite{yong_object_2023} und \cite{zhou_image-based_2021} zeigen, dass mithilfe von Machine-Learning-Methoden Objekte erfolgreich identifiziert werden können.
 Da uns jedoch die nötigen Daten fehlen, um KI zur Bestimmung von Anschlagpunkten einzusetzen, fokussieren wir uns in dieser Arbeit auf Fiducial Marker. Diese bieten den Vorteil, 
 dass ihre Ausrichtung und Grösse im Voraus festgelegt werden können, was Berechnungen vereinfacht. Für unsere Anwendung haben wir AprilTags gewählt, da sie in Vergleichstests höhere 
-Genauigkeiten als AruCo-Marker erzielen. Um die Position des Anschlagpunktes zu bestimmen nutzen wir ein Kreuzmuster aus vier AprilTags, bei dem der Anschlagpunkt zentral in der Mitte liegt.
+Genauigkeiten als AruCo-Marker erzielen. Um die Position des Anschlagpunktes zu bestimmen, nutzen wir ein Kreuzmuster aus vier AprilTags, bei dem der Anschlagpunkt zentral in der Mitte liegt.
 Tests und ein Prototyp zeigen, dass die Abweichungen innerhalb der vom Kunden geforderten Toleranzgrenzen liegen, wodurch unser Ansatz eine praktikable Lösung darstellt.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{graphics/marker_anordnung.png}
-    \caption{Kreuzmuster zur Positionsbestimmung}
+    \caption{Kreuzmuster zur Positions Bestimmung}
 \end{figure}
 
 
