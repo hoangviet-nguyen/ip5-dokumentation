@@ -3,8 +3,9 @@ Wir beginnen mit einem Überblick über das Problem und die Zielgruppe unserer K
 Anschliessend führen wir grundlegende Begriffe ein, die für das Verständnis unseres Projekts
 wichtig sind. Im nächsten Schritt betrachten wir ähnliche Projekte, die vergleichbare Herausforderungen adressieren.
 Da wir Fiducial Marker zur Erkennung der Anschlagpunkte verwenden, erläutern wir die Grundlagen zur 
-Erkennung dieser Marker sowie zur Bestimmung ihrer Position relativ zur Kamera. Abschliessend stellen wir die
-Frameworks vor, die im Projekt verwendet wurden.
+Erkennung dieser Marker sowie zur Bestimmung ihrer Position relativ zur Kamera. Wir werden ausserdem eine Einführung in 
+Kamera-Hardware geben und erläutern, warum deren Kalibrierung vor den Berechnungen von entscheidender Bedeutung ist.
+Abschliessend stellen wir die Frameworks vor, die im Projekt verwendet wurden.
 
 \subsection{Problemstellung}
 Ludwig System, ein Hersteller von Werkzeugen für Baustellen, entwickelt derzeit eine autonome Traverse. Damit diese 
@@ -276,7 +277,7 @@ sich Marker durch äussere Einflüsse, wie Witterung oder mechanische Belastung,
 Erkennung dauerhaft zu gewährleisten, müssen sie regelmässig ersetzt oder neu angebracht werden.
 
 
-
+\clearpage
 \subsection{Kameras}
 Um die Anschlagpunkte zuverlässig erkennen zu können, sind geeignete Kamerasysteme
 erforderlich. Um zu verstehen, warum bestimmte Schritte, wie beispielsweise die 
@@ -324,9 +325,59 @@ Abweichungen der Linse und sind besonders bei hohen FOV-Werten ausgeprägt.
 Zudem können sie die Erkennung der Anschlagpunkte erschweren, da die Form und 
 Lage der Marker falsch interpretiert werden können.
 
-Um diese Probleme zu vermeiden, muss die Kamera vor ihrem Einsatz kalibriert
-werden. Die Kamerakalibrierung umfasst die Korrektur von Verzerrungen 
-(z. B. radialen und tangentialen Verzerrungen) sowie die Bestimmung der 
+Es gibt zwei Hauptarten von Verzerrungen bei Kameralinsen: die radiale und die tangentiale Verzerrung.
+Die radiale Verzerrung führt dazu, dass eigentlich gerade Linien gekrümmt erscheinen. Abbildung 
+\ref{fig:distortion} verdeutlicht die Auswirkung der radiale Verzerrung, bei der gerade Linien gekrümmt
+dargestellt werden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{distortion.png}
+    \caption{Beispiele von Verzerrungen}
+    \label{fig:distortion}
+\end{figure}
+
+Die tangentiale Verzerrung entsteht, wenn die Kameralinse nicht perfekt parallel zur Bildebene ausgerichtet
+ist. Dies führt dazu, dass bestimmte Bereiche des Bildes näher erscheinen als andere, wodurch eine ungleichmässige
+Darstellung entsteht. 
+
+Die radiale Verzerrung lässt sich mit folgender Formel berechnen:
+
+\[
+x_\text{distorted} = x(1 + k_1r^2 + k_2r^4 + k_3r^6) \quad
+y_\text{distorted} = y(1 + k_1r^2 + k_2r^4 + k_3r^6)
+\]
+
+Die Formel zur Berechnung der tangentialen Verzerrung lautet:
+
+\[
+x_\text{distorted} = x + \left[ 2p_1xy + p_2(r^2 + 2x^2) \right]
+y_\text{distorted} = y + \left[ p_1(r^2 + 2y^2) + 2p_2xy \right]
+\]
+
+Das \(r\) ist hierbei für den euklidischen der Abstand den ein Pixel mit Koordinaten \((x, y)\) zum Bildzentrum hat.
+Zusammengefasst muss man also die Verzerrungskoeffizienten k1, k2, p1, p2 und k3 finden.
+
+\[
+Verzerrungskoeffizienten = (k1, k2, p1, p2, k3)
+\]
+
+Zusätzlich zu den Verzerrungskoeffizienten werden auch die intrinsischen Parameter der Kamera benötigt. Diese können 
+mithilfe eines vorgegebenen Kalibrierungsmusters berechnet werden. Dabei werden bekannte Punkte des Musters verwendet,
+deren tatsächliche Positionen in Weltkoordinaten bekannt sind. Anschliessend werden diese Punkte auf die Bildkoordinaten
+projiziert. Die Kalibrierung minimiert iterativ den Reprojektion-Fehler, der die Differenz zwischen den projizierten 
+Punkten und den gemessenen Bildpunkten darstellt.
+
+\[
+K =
+\begin{bmatrix}
+f_x & 0 & c_x \\
+0 & f_y & c_y \\
+0 & 0 & 1
+\end{bmatrix}
+\]
+
+Die Kamerakalibrierung umfasst die Korrektur von Verzerrungen sowie die Bestimmung der 
 intrinsischen Parameter der Kamera, wie:
 
 \begin{itemize}
@@ -335,11 +386,18 @@ intrinsischen Parameter der Kamera, wie:
     \item \textbf{Verzerrungskoeffizienten}: Parameter, die die Stärke der Verzerrungen beschreiben.
 \end{itemize}
 
+
 Um eine Kamera zu kalibrieren, werden mehrere Fotos eines regelmässigen Musters 
-benötigt, beispielsweise eines Schachbretts. Die Bilder sollten aus verschiedenen 
-Distanzen und Blickwinkeln aufgenommen werden, um eine möglichst breite Datenbasis 
-zu schaffen. Dabei ist es wichtig die Kamera zu bewegen, während das Muster, 
-beispielsweise auf einer Wand, fest positioniert bleibt.
+benötigt. Die Bilder sollten aus verschiedenen Distanzen und Blickwinkeln aufgenommen werden,
+um eine möglichst breite Datenbasis zu schaffen. Dabei ist es wichtig die Kamera zu bewegen, während
+das Muster fest positioniert bleibt. Abbildung \ref{fig:corrected} zeigt die Korrektur von Verzerrungen
+anhand eines Kalibrierungsmusters, wobei die Verzerrung vor und nach der Kalibrierung sichtbar ist.
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{corrected.png}
+    \caption{Muster vor und nach der Kalibrierung}
+    \label{fig:corrected}
+\end{figure}
 
 Die Dokumentation von OpenCV \cite{opencv_calibration_tutorial} liefert praktische 
 Beispiele und erklärt detailliert, wie die Kalibrierung implementiert werden 
