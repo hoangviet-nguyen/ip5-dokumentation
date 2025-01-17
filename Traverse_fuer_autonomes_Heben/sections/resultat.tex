@@ -56,22 +56,24 @@ Auf der Z-Koordinate darf es maximal 1cm Ungenauigkeit besitzen.
 Um dies zu testen wurden Fotos von ArUco und Apriltags gemacht in den Distanzen 75 cm, 100 cm, 150 cm, 200 cm.
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[h]{0.5\textwidth}
-        \includegraphics[width=0.5\linewidth]{graphics/75_xtranslate.jpg}
-        \caption{+4 X-Translation Test-Foto von 75 cm Distanz}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{graphics/75_xtranslate.jpg}
+        \caption{+4 X-Translation von 75 cm Distanz}
         \label{fig:Test75}
     \end{subfigure}
-    \begin{subfigure}[h]{0.5\textwidth}
-        \includegraphics[width=0.5\linewidth]{graphics/100_ytranslate.jpg}
-        \caption{+6 Y-Translation Test-Foto von 100 cm Distanz}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{graphics/100_ytranslate.jpg}
+        \caption{+6 Y-Translation von 100 cm Distanz}
         \label{fig:Test100}
     \end{subfigure}
-    \begin{subfigure}[h]{0.5\textwidth}
-        \includegraphics[width=0.5\linewidth]{graphics/200_rotation.jpg}
-        \caption{\(45\degree\) Rotation Test-Foto von 200 cm Distanz}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{graphics/200_rotation.jpg}
+        \caption{\(45\degree\) Rotation von 200 cm Distanz}
         \label{fig:Test200}
     \end{subfigure}
-    
     \caption{Test-Fotos von ArUco und Apriltag}
 \label{fig:TestFotos}
 \end{figure}
@@ -84,7 +86,8 @@ unabhängig von einander gemacht, um präzisere Schlüsse von den Resultaten zie
 \begin{table}[!htb]
     \caption{Resultate: X-Translation}
     \label{tab:xTrans}
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{Apriltags}
         \label{tab:xTransApril}
         \begin{tabular}{|l|l|l|l|l|c|}
@@ -106,7 +109,8 @@ unabhängig von einander gemacht, um präzisere Schlüsse von den Resultaten zie
         \end{tabular}
     \end{subtable}
     \\[\smallskipamount]
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{ArUco}
         \label{tab:xTransAruco}
         \begin{tabular}{|l|l|l|l|l|c|}
@@ -137,10 +141,11 @@ Bei \ref{tab:xTransAruco} hat eine Durchschnittliche mittlere Abweichung von 0.2
 \begin{table}[!htb]
     \caption{Resultate: Y-Translation}
     \label{tab:yTrans}
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{Apriltags}
         \label{tab:yTransApriltag}
-        \begin{tabular}{|l|l|l|l|l|l|}
+        \begin{tabular}{|l|l|l|l|l|c|}
             \hline
             Erwartet/Distanzen & 75 cm & 100 cm & 150 cm & 200 cm & Mittlere Abweichung\\
             \hline
@@ -155,7 +160,8 @@ Bei \ref{tab:xTransAruco} hat eine Durchschnittliche mittlere Abweichung von 0.2
         \end{tabular}
     \end{subtable}
     \\[\smallskipamount]
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{ArUco}
         \label{tab:yTransAruco}
             \begin{tabular}{|l|l|l|l|l|c|}
@@ -185,7 +191,8 @@ In der Y-Translation von -4 cm überschreitet ArUco Marker die Ungenauigkeit von
 \begin{table}[!htb]
     \caption{Resultate: Z-Translation}
     \label{tab:zTrans}
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{Apriltags}
         \label{tab:zTransApril}
         \begin{tabular}{|l|l|l|l|l|c|}
@@ -197,7 +204,8 @@ In der Y-Translation von -4 cm überschreitet ArUco Marker die Ungenauigkeit von
         \end{tabular}
     \end{subtable}
     \\[\smallskipamount]
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{ArUco}
         \label{tab:zTransAruco}
         \begin{tabular}{|l|l|l|l|l|c|}
@@ -221,7 +229,8 @@ Die Apriltags erfüllt die Anforderungen bei allen Distanzen.
 \begin{table}[!htb]
     \caption{Resultate: Z-Rotation}
     \label{tab:zRot}
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{Apriltags}
         \label{tab:zRotApril}
         \begin{tabular}{|l|l|l|l|l|c|}
@@ -243,7 +252,8 @@ Die Apriltags erfüllt die Anforderungen bei allen Distanzen.
         \end{tabular}
     \end{subtable}
     \\[\smallskipamount]
-    \begin{subtable}{.5\linewidth}
+    \begin{subtable}{\linewidth}
+        \centering
         \caption{ArUco}
         \label{tab:zRotAruco}
         \begin{tabular}{|l|l|l|l|l|c|}
@@ -267,25 +277,26 @@ Bei der Tabelle \ref{tab:zRotAruco} ist zu sehen, dass auch nur bei 30\degree di
 Bei \ref{tab:zRotApril} hat eine Durchschnittliche mittlere Abweichung von 1.05\degree. 
 Bei \ref{tab:zTransAruco} hat eine Durchschnittliche mittlere Abweichung von 1.05\degree.
 
+\clearpage
 \subsection{Mittelpunkt-Berechnung}
 
 Um zu testen, ob die Mittelpunkt Berechnung funktioniert und ob diese die Genauigkeit erfüllen, wurden Test-Fotos gemacht.
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[h]{0.5\textwidth}
-        \includegraphics[width=0.5\linewidth]{graphics/MittelpunktTestFoto.jpg}
-        \caption{Test-Foto von einem unverdeckten Kreuz-Muster}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[width=\linewidth]{graphics/MittelpunktTestFoto.jpg}
+        \caption{Unverdecktes Kreuz-Muster}
         \label{fig:MittelpunktTest}
     \end{subfigure}
-    \begin{subfigure}[h]{0.5\textwidth}
-        \includegraphics[width=0.5\linewidth]{graphics/ocluded2Test.jpg}
-        \caption{Test-Foto von einem Teils-verdeckten Kreuz-Muster}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[width=\linewidth]{graphics/ocluded2Test.jpg}
+        \caption{Teil-Verdecktes Kreuz-Muster}
         \label{fig:Mittelpunktocluded}
     \end{subfigure}
-    \begin{subfigure}[h]{0.5\textwidth}
-        \includegraphics[width=0.5\linewidth]{graphics/edgeExtreme.jpg}
-        \caption{Test-Foto von einem teils-verdeckten Kreuz-Muster an der links-oberen Ecke}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[width=\linewidth]{graphics/edgeExtreme.jpg}
+        \caption{Teils-verdeckten Kreuz-Muster an der links-oberen Ecke}
         \label{fig:MittelpunktExtreme}
     \end{subfigure}
     
@@ -295,10 +306,11 @@ Um zu testen, ob die Mittelpunkt Berechnung funktioniert und ob diese die Genaui
 
 Dafür wurde mit Apriltags die Anordnung aus Kapitel \ref{sec:anordnung} nachgebaut. 
 Da die Genauigkeit im Kapitel \ref{sec:EvaluationPosen} bestätigt wurde, musste nicht mehr strickt gemessen werden.
-Um aber die Genauigkeit der Mittelpunkt Berechnung trotzdem zu evaluieren, wurde in der Mitte der Anordnung ein weiterer Marker hinzugefügt, wie man an den Abbildungen in \ref{TestFotosMittelpunkt} sieht.
+Um aber die Genauigkeit der Mittelpunkt Berechnung trotzdem zu evaluieren, wurde in der Mitte der Anordnung ein weiterer Marker hinzugefügt, wie man an den Abbildungen in \ref{fig:TestFotosMittelpunkt} sieht.
 Mit diesem wurde die Posenschätzung durchgeführt und die daraus resultierende Translations-Vektor mit dem Vektor der Mittelpunkt Berechnung verglichen.
 
 \begin{table}[!htb]
+    \centering
     \caption{Resultate: Mittelpunkt Berechnung Translation}
     \label{tab:MittelpunktTranslation}
         \begin{tabular}{|l|l|}
@@ -337,6 +349,7 @@ Die Formel dafür ist:
 Die Formel \ref{eq:mittlereAbweichung} ist gleich für die Tabelle \ref{tab:MittelpunktRotation} aber mit Rotationsvektoren.
 
 \begin{table}[!htb]
+    \centering
     \caption{Resultate: Mittelpunkt Berechnung Rotation}
     \label{tab:MittelpunktRotation}
     \begin{tabular}{|l|l|}

@@ -1,8 +1,8 @@
 \section{Implementierung}
 
 In diesem Kapitel wird die Implementierung erläutert vom Marker Konzept. 
-Es werden die Umsetzung der Intrinsischen Kamera Kalibrierung beschrieben und die zwei Implementierungen, eine mit ArUco Marker der andere mit AprilTags, erläutert und evaluiert.
-Zusätzlich werden die Umsetzungen der Posenschätzung und der Mittelpunkt-Berechnung beschrieben.
+Es werden die Implementierung der Intrinsischen Kamera Kalibrierung beschrieben und die zwei Implementierungen, eine mit ArUco Marker der andere mit AprilTags, erläutert und evaluiert.
+Zusätzlich werden die Implementierungen der Posenschätzung und der Mittelpunkt-Berechnung beschrieben.
 
 \subsection{Ablauf}
 
@@ -183,6 +183,9 @@ muss diese Kalibrierung neu gemacht werden, um so die neue Kalibrierungs Datei b
 \clearpage
 
 \subsection{Lokalisierung der Last}
+Im Folgenden haben wir zwei verschiedene Markerarten miteinander verglichen. Die Implementierung der beiden Markerarten
+unterscheidet sich dabei in einigen Aspekten: Für AruCo stehen bereits vorgefertigte Methoden in OpenCV zur Verfügung, 
+während für AprilTags eine externe Bibliothek verwendet werden muss.
 
 \subsubsection{Implementierung: ArUco}
 
@@ -255,12 +258,12 @@ die Koordinaten des Zentrums jedes Markers. Diese Informationen sind essenziell,
 präzise zu lokalisieren und weitere Berechnungen, wie die Positionsbestimmung, durchzuführen.
 
 
-
-\subsubsection{Umsetzung Posenschätzung}
+\clearpage
+\subsubsection{Implementierung Posenschätzung}
 Die Posenschätzung ermöglicht es, die Position und Orientierung eines Markers relativ zur Kamera
 zu bestimmen. Dafür werden die intrinsischen Kameraparameter, die Eckpunkte des erkannten 
 Markers (in Bildkoordinaten) sowie die reale Grösse des Markers benötigt. Die Grösse sollte 
-in einer einheitlichen Masseinheit angegeben werden, in unserem Fall Zentimeter (cm). \clearpage
+in einer einheitlichen Masseinheit angegeben werden, in unserem Fall Zentimeter (cm).
 
 Der folgende Code implementiert die Posenschätzung für einen einzelnen Marker:
 
@@ -312,7 +315,7 @@ Diese Ergebnisse können verwendet werden, um die Traverse korrekt zu positionie
 räumliche Transformationen durchzuführen.
 
 
-\subsubsection{Umsetzung der Mittelpunkt-Berechnung}
+\subsubsection{Implementierung der Mittelpunkt-Berechnung}
 
 Da man nicht die Koordinaten der Marker braucht, sondern die des Anschlagspunkts, muss man eine 
 Mittelpunkt-Berechnung durchführen wie im Kapitel \ref{sec:middlePoint} beschrieben.
