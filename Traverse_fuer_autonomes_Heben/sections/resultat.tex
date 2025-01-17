@@ -281,7 +281,7 @@ Um zu testen, ob die Mittelpunkt Berechnung funktioniert und ob diese die Genaui
         \label{fig:MittelpunktExtreme}
     \end{subfigure}
     
-    \caption{Test-Fotos von ArUco und Apriltag}
+    \caption{Test-Fotos vom Kreuz-Muster}
 \label{fig:TestFotosMittelpunkt}
 \end{figure}
 
@@ -316,7 +316,17 @@ Mit diesem wurde die Posenschätzung durchgeführt und die daraus resultierende 
         \end{tabular}
 \end{table}
 
+Die Tabelle \ref{tab:MittelpunktTranslation} zeigt die Test-Bilder für die Mittelpunkt Berechnung und ihre Szenarion, und die Mittlere Abweichung der Mittelpunkt Berechnung.
+Die Mittlere Abweichung in diesem Fall bedeutet den Translationsvektor v1 vom mittleren Marker und den Translationsvektor v2 des berechneten Mittelpunkt subtrahieren und den Durchschnitt der X, Y und Z Werte nehmen. 
 
+Die Formel dafür ist: 
+\begin{equation}
+    v = v1 - v2\\
+    m = \frac{v.x + v.y + v.z}{3}
+    \label{eq:mittlereAbweichung}
+\end{equation}
+
+Die Formel \ref{eq:mittlereAbweichung} ist gleich für die Tabelle \ref{tab:MittelpunktRotation} aber mit Rotationsvektoren.
 
 \begin{table}[!htb]
     \caption{Resultate: Mittelpunkt Berechnung Rotation}
@@ -344,6 +354,8 @@ Mit diesem wurde die Posenschätzung durchgeführt und die daraus resultierende 
     \end{tabular}
 \end{table}
 
+Die Tabelle \ref{tab:MittelpunktRotation} zeigt die Test-Bilder und die Mittlere Abweichung der Rotation.
+Die grösste Mittlere Abweichung ist \(0.89\degree\), welche noch unter den Anforderungen ist.
 
 
 \subsection{Diskussion}
