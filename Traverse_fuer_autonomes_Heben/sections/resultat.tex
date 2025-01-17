@@ -1,11 +1,85 @@
 \section{Evaluation und Diskussion}
 
+In diesem Kapitel wird als erstes die Testumgebung beschrieben. 
+Dort wird beschrieben wie getetest wurde und wie sichergestellt wurde, dass die Genauigkeiten stimmen.
+
+Weiters werden die Resultate der Posenschätzung einzelner Apriltag und ArUco Marker gezeigt.
+Danach werden die Resultate der Mittelpunkt Berechnung gezeigt und wie Vorgegangen ist zum Testen.
+
+Am Schluss wird über die Resultate diskutiert.
+
 \subsection{Testumgebung}
 
+Um zu testen ob die Implementierung die Anforderungen erfüllen kann, mussten Test-bilder geschossen werden.
+
+So dass die Test-Bilder genau sind und aus den resultierenden Posenschätzungen die Genauigkeit bestummen werden kann, wurde eine Testumgebung aufgebaut.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\textwidth]{graphics/Skizze_TestUmgebung.PNG}\hfill%
+        \caption{Skizze der Testumgebung}
+        \label{fig:SkizzeTestumgebung}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\textwidth]{graphics/TestUmgebung.jpg}\hfill%
+        \caption{Implementierung der Testumgebung}
+        \label{fig:Testumgebung}
+    \end{subfigure}
+    \caption{Beschreibung der Testumgebung}
+\end{figure}
+
+Die Abbildung \ref{fig:SkizzeTestumgebung} beschreibt wie die Testumgebung aufgebaut werden sollte.
+Die Kamera sollte auf einem Objekt stabilisiert werden, um ein stabileres Bild zu bekommen und dass die Kamera höher gelagert ist und so mehr sehen kann.
+
+Die Marker sollten auf einer Wand befestigt werden. 
+Um einen fairen Vergleich zwischen Apriltag und ArUco machen zu können, wurden beide für die Posenschätzung nebeneinander auf einem Bild Fotografiert.
+Dies stellt sicher dass beide Marker gleich entfernt sind und kleine Verschiebungen beide beinträchtigen.
+
+Die Test-Fotos wurden von den Distanzen 75 cm, 100 cm, 150 cm und 200cm.
+75 cm und 200 cm sind jeweils die Mindesthöhe und die Maximalhöhe, bei welcher das System funktionieren sollte.
+100 cm und 150 cm wurden gewählt, um sehen wie die Ungenauigkeit sich über die Distanzen entwickelt.
+
+Bei der Abbildung \ref{fig:Testumgebung} wird gezeigt wie die Implementierung der Skizze aussieht. 
+Es wurde die Raspberry Pi Kamera Model B Rev 2.0 als Test-Kamera benutzt, welche auf einen Holzblock stabilisiert wurde.
+Mit einem 1 Meter Lineal wurde sichergestellt, dass der Holzblock und damit die Kamera relativ zu den Marker gerade war.
+Mit einem Messgerät wurde die Distanz vom Marker zur Kamera gemessen. 
+Dabei musste noch die Länge des Objektives mitberechnet werden, da das Bild vom Sensor gemacht wird und von dort die Posenschätzung durchgeführt wird.
+
 \subsection{Posenschätzung Marker}
+\label{sec:EvaluationPosen}
 
 Um die Anforderungen zu erfüllen, darf die Posenschätzung der Marker auf der X- und Y-Koordinate eine Ungenauigkeit von maximal 2cm besitzen. 
 Auf der Z-Koordinate darf es maximal 1cm Ungenauigkeit besitzen.
+
+Um dies zu testen wurden Fotos von ArUco und Apriltags gemacht in den Distanzen 75 cm, 100 cm, 150 cm, 200 cm.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/75_xtranslate.jpg}
+        \caption{+4 X-Translation Test-Foto von 75 cm Distanz}
+        \label{fig:Test75}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/100_ytranslate.jpg}
+        \caption{+6 Y-Translation Test-Foto von 100 cm Distanz}
+        \label{fig:Test100}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/200_rotation.jpg}
+        \caption{\(45\degree\) Rotation Test-Foto von 200 cm Distanz}
+        \label{fig:Test200}
+    \end{subfigure}
+    
+    \caption{Test-Fotos von ArUco und Apriltag}
+\label{fig:TestFotos}
+\end{figure}
+
+Wie die Abbildungen in \ref{fig:TestFotos} zeigen, wurden die X-Translation, die Y-Translation und die Rotationen
+unabhängig von einander gemacht, um präzisere Schlüsse von den Resultaten ziehen zu können.
+
+
 
 \begin{table}[!htb]
     \caption{Resultate: X-Translation}
@@ -66,9 +140,9 @@ Bei \ref{tab:xTransAruco} hat eine Durchschnittliche mittlere Abweichung von 0.2
     \begin{subtable}{.5\linewidth}
         \caption{Apriltags}
         \label{tab:yTransApriltag}
-        \begin{tabular}{|l|l|l|l|l|c|}
+        \begin{tabular}{|l|l|l|l|l|l|}
             \hline
-            Erwartet / Distanzen & 75 cm & 100 cm & 150 cm & 200 cm & Mittlere Abweichung\\
+            Erwartet/Distanzen & 75 cm & 100 cm & 150 cm & 200 cm & Mittlere Abweichung\\
             \hline
             Erwartet:   -8 cm &          & -8.54 cm & -9.61 cm & -9.91 cm & 1.35 cm\\
             \hline
@@ -193,8 +267,103 @@ Bei der Tabelle \ref{tab:zRotAruco} ist zu sehen, dass auch nur bei 30\degree di
 Bei \ref{tab:zRotApril} hat eine Durchschnittliche mittlere Abweichung von 1.05\degree. 
 Bei \ref{tab:zTransAruco} hat eine Durchschnittliche mittlere Abweichung von 1.05\degree.
 
-
-
 \subsection{Mittelpunkt-Berechnung}
+
+Um zu testen, ob die Mittelpunkt Berechnung funktioniert und ob diese die Genauigkeit erfüllen, wurden Test-Fotos gemacht.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/MittelpunktTestFoto.jpg}
+        \caption{Test-Foto von einem unverdeckten Kreuz-Muster}
+        \label{fig:MittelpunktTest}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/ocluded2Test.jpg}
+        \caption{Test-Foto von einem Teils-verdeckten Kreuz-Muster}
+        \label{fig:Mittelpunktocluded}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/edgeExtreme.jpg}
+        \caption{Test-Foto von einem teils-verdeckten Kreuz-Muster an der links-oberen Ecke}
+        \label{fig:MittelpunktExtreme}
+    \end{subfigure}
+    
+    \caption{Test-Fotos vom Kreuz-Muster}
+\label{fig:TestFotosMittelpunkt}
+\end{figure}
+
+Dafür wurde mit Apriltags die Anordnung aus Kapitel \ref{sec:anordnung} nachgebaut. 
+Da die Genauigkeit im Kapitel \ref{sec:EvaluationPosen} bestätigt wurde, musste nicht mehr strickt gemessen werden.
+Um aber die Genauigkeit der Mittelpunkt Berechnung trotzdem zu evaluieren, wurde in der Mitte der Anordnung ein weiterer Marker hinzugefügt, wie man an den Abbildungen in \ref{TestFotosMittelpunkt} sieht.
+Mit diesem wurde die Posenschätzung durchgeführt und die daraus resultierende Translations-Vektor mit dem Vektor der Mittelpunkt Berechnung verglichen.
+
+\begin{table}[!htb]
+    \caption{Resultate: Mittelpunkt Berechnung Translation}
+    \label{tab:MittelpunktTranslation}
+        \begin{tabular}{|l|l|}
+            \hline
+            Szenario &  Mittlere Abweichung\\
+            \hline
+            Links oben rotiert & 0.09 cm\\
+            \hline
+            Links oben & 0.12 cm\\
+            \hline
+            \(-45 \degree\) Rotiert & 0.02 cm\\
+            \hline
+            \(-90 \degree\) Rotiert& 0.10 cm\\
+            \hline
+            1 verdeckt & 0.06 cm\\
+            \hline
+            2 verdeckt & 0.08 cm\\
+            \hline
+            3 verdeckt & 0.02 cm\\
+            \hline
+            0 verdeckt & 0.01 cm\\
+            \hline
+        \end{tabular}
+\end{table}
+
+Die Tabelle \ref{tab:MittelpunktTranslation} zeigt die Test-Bilder für die Mittelpunkt Berechnung und ihre Szenarion, und die Mittlere Abweichung der Mittelpunkt Berechnung.
+Die Mittlere Abweichung in diesem Fall bedeutet den Translationsvektor v1 vom mittleren Marker und den Translationsvektor v2 des berechneten Mittelpunkt subtrahieren und den Durchschnitt der X, Y und Z Werte nehmen. 
+
+Die Formel dafür ist: 
+\begin{equation}
+    v = v1 - v2\\
+    m = \frac{v.x + v.y + v.z}{3}
+    \label{eq:mittlereAbweichung}
+\end{equation}
+
+Die Formel \ref{eq:mittlereAbweichung} ist gleich für die Tabelle \ref{tab:MittelpunktRotation} aber mit Rotationsvektoren.
+
+\begin{table}[!htb]
+    \caption{Resultate: Mittelpunkt Berechnung Rotation}
+    \label{tab:MittelpunktRotation}
+    \begin{tabular}{|l|l|}
+            \hline
+            Szenario &  Mittlere Abweichung\\
+            \hline
+            Links oben rotiert & \(0.16\degree\)\\
+            \hline
+            Links oben & \(0.11\degree\)\\
+            \hline
+            \(-45 \degree\) & \(0.01\degree\)\\
+            \hline
+            \(-90 \degree\) & \(0.01\degree\)\\
+            \hline
+            1 verdeckt & \(0.26\degree\)\\
+            \hline
+            2 verdeckt & \(0.01\degree\)\\
+            \hline
+            3 verdeckt & \(0.07\degree\)\\
+            \hline
+            0 verdeckt & \(0.89\degree\)\\
+            \hline
+    \end{tabular}
+\end{table}
+
+Die Tabelle \ref{tab:MittelpunktRotation} zeigt die Test-Bilder und die Mittlere Abweichung der Rotation.
+Die grösste Mittlere Abweichung ist \(0.89\degree\), welche noch unter den Anforderungen ist.
+
 
 \subsection{Diskussion}

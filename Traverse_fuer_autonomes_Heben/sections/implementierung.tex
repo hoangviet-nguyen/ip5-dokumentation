@@ -4,6 +4,31 @@ In diesem Kapitel wird die Implementierung erläutert vom Marker Konzept.
 Es werden die Umsetzung der Intrinsischen Kamera Kalibrierung beschrieben und die zwei Implementierungen, eine mit ArUco Marker der andere mit AprilTags, erläutert und evaluiert.
 Zusätzlich werden die Umsetzungen der Posenschätzung und der Mittelpunkt-Berechnung beschrieben.
 
+\subsection{Ablauf}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/Ablauf.png}
+    \caption{Ablauf Diagramm vom System}
+    \label{fig:Ablauf}
+\end{figure}
+
+Die Abbildung \ref{fig:Ablauf} zeigt das Ablauf Diagramm von diesem System. 
+
+Wenn der Benutzer das Skript startet, startet das Skript gerade die Kamera.
+Zugleich liest es die Kameraeigenschaften von der gespeicherten Kamera Kalibrierung.
+
+Weiters kommt es zum Hauptloop des Systems, also solange das System lauft, wird dieser Loop ausgeführt.
+
+Als erstes wird von der Kamera das jetzige Frame genommen. 
+Dieses Frame wird an die Apriltag Bibliothek übergeben und dort werden die marker erkannt und übergibt die Marker IDs und die Ecken
+
+Diese Ecken zusammen mit den Kameraeigenschaften werden an OpenCV übergeben, um dort die Posenschätzung durchzuführen.
+Die Posenschätzung übergibt die Translationsvektoren und Rotationsvektoren am Skript zurück. 
+Dort wird mit den Translationsvektoren und Rotationsvektoren die Mittelpunkt Berechnung durchgeführt.
+
+Das Resultat wird dann im Frame geschrieben und das Frame am Benutzer angezeigt.
+
 \subsection{Intrinsische Kamera Kalibrierung}
 
 Um eine genaue Posenschätzung durchführen zu können, braucht man erst die Kamera Matrix und die Verzerrungs-Koeffizienten. 
