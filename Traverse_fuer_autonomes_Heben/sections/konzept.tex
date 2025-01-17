@@ -32,14 +32,29 @@ Folgende Anforderungen muss das System erfüllen:
 
 \subsection{Konzept: Lokalisierung durch AR Marker}
 
-In diesem Konzept geht es darum die Anschlagspunkte durch AR Marker, wie ArUco oder AprilTags, zu lokalisieren. Dabei werden die Marker um den Anschlagspunkt angeordnet. Wenn die Marker dann erkannt werden, kann durch Posenschätzung die 3D Koordinaten und 3D Rotationen berechnet werden. Durch die Anordnung der Marker kann dann die 3D Koordinaten vom Anschlagspunkt berechnet werden. 
+In diesem Konzept geht es darum die Anschlagspunkte durch Marker, wie ArUco oder AprilTags, zu lokalisieren. Dabei werden die Marker um den Anschlagspunkt angeordnet. Wenn die Marker dann erkannt werden, kann durch Posenschätzung die 3D Koordinaten und 3D Rotationen berechnet werden. Durch die Anordnung der Marker kann dann die 3D Koordinaten vom Anschlagspunkt berechnet werden. 
 Für dieses Konzept werden Sticker von den Markern benötigt, welche eine genaue Grösse haben. 
 
 \subsubsection{Marker Anordnung}
 
-Wie in der Abbildung (ref) zu sehen ist werden 4 Marker in einem Kreuz-Muster um den Anschlagspunkt angeordnet. Für Anschlagspunkt 1 werden Marker mit den IDs von 0 bis 3 benutzt und in der Reihenfolge links, oben, rechts und dann unten angeordnet. Für Anschlagspunkt 2 Marker mit den IDs von 4 bis 7 benutzt. Dadurch können zwischen den zwei Anschlagspunkten differenziert werden wenn beide Anschlagspunkte im Bild sind.Falls weitere Anschlagspunkte benötigt werden, sollten die Marker-IDs-Reihenfolge und Position fortgeführt werden. Diese Anordnung sorgt dafür dass mindestens ein Marker erkannt werden kann, soweit die Traverse in der definierten Grenze ist. 
-(redundanz erhöht stabilität)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker.png}
+    \caption{Marker im Kreuzmuster Anordnung}
+    \label{fig:markerAnordnung}
+\end{figure}
 
+Wie in der Abbildung \ref{fig:markerAnordnung} zu sehen ist werden 4 Marker in einem Kreuz-Muster um den Anschlagspunkt angeordnet. 
+Für Anschlagspunkt 1 werden Marker mit den IDs von 0 bis 3 benutzt und in der Reihenfolge links, unten, rechts und dann oben angeordnet. 
+Für Anschlagspunkt 2 Marker mit den IDs von 4 bis 7 benutzt. 
+In der Mitte des Kreuz-Musters sollte der Anschlagspunkt sich befinden. 
+
+Dadurch können zwischen den zwei Anschlagspunkten differenziert werden wenn beide Anschlagspunkte im Bild sind. 
+Falls weitere Anschlagspunkte benötigt werden, sollten die Marker-IDs-Reihenfolge und Position fortgeführt werden. 
+
+Diese Anordnung sorgt dafür dass mindestens ein Marker erkannt werden kann, soweit die Traverse in der definierten Grenze ist. 
+Dies führt zu einer grösseren Robustheit gegenüber nicht erkennen von Marker oder Wetterbedingungen, welche Marker ganz oder zum Teil verdecken können.
+Weiteres muss das Design des Anschlagspunkt nicht weiter beachtet werden, da selbst wenn der Anschlagspunkt ein Marker im Bild verdecken sollte, hat es maximal 3 weitere Marker welche erkannt werden können.
 \clearpage
 \subsubsection{Markergrösse}
 
@@ -75,18 +90,52 @@ Diese Formel liefert eine direkte Methode, die Markergrösse an unterschiedliche
 \label{sec:middlePoint}
 
 Um von den 3D Koordinaten der Markern zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation 
-gemacht werden. Da die Berechnung zum Mittelpunkt auch mit nur einem Marker funktionieren muss, wird von jede 
-Marker-Koordinaten in die Mitte des Keuz-Musters translatiert. Die Anordung der Marker und die damit zusammenhängende 
-Marker-ID bestimmt welche Translation durchgeführt werden muss. Marker mit der ID 0 und 4 werden um + l und Marker 
-mit ID 2 und 6 um -l in der X-Achse translatiert. Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l
-in der Y-Achse translatiert. Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
+gemacht werden.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{graphics/marker_anordnung.png}
-    \caption{Marker Anordnung für Mittelpunkt rechnung}
-    \label{fig:marker_anordnung}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_1.png}
+        \caption{Mittelpunkt Berechnung mit 1 erkannten Marker}
+        \label{fig:marker_anordnung1}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_2.png}
+        \caption{Mittelpunkt Berechnung mit 2 erkannten Marker}
+        \label{fig:marker_anordnung2}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_3.png}
+        \caption{Mittelpunkt Berechnung mit 3 erkannten Marker}
+        \label{fig:marker_anordnung3}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_4.png}
+        \caption{Mittelpunkt Berechnung mit 4 erkannten Marker}
+        \label{fig:marker_anordnung3}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_2_Rotation.png}
+        \caption{Mittelpunkt Berechnung mit 2 erkannten Marker und Rotation R}
+        \label{fig:marker_anordnung2Rot}
+    \end{subfigure}
+    \caption{Mittelpunkt Berechnung von verschiedenen Szenarien}
+\label{fig:marker_anordnung}
 \end{figure}
+
+Wie die Abbildungen \ref{fig:marker_anordnung} zeigen, kann der Mittelpunkt mit beliebig vielen erkannten Marker berechnet werden.
+Dabei wird von jede Marker-Koordinate in die Mitte des Keuz-Musters um Markerlänge l translatiert.
+
+Die Anordung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. 
+Marker mit der ID 0 und 4 werden um + l und Marker mit ID 2 und 6 um -l in der X-Achse translatiert. 
+Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l in der Y-Achse translatiert. 
+Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
+
+Abbildung \ref{fig:marker_anordnung2Rot} beschreibt, wie der Mittelpunkt berechnet wird, falls eine Rotation in den Markern existiert.
+Dabei wird die Markerlänge l, welches hier ein Vektor ist, mit der Rotation R multipliziert. Mit dem rotierten Vektor kann nun in die Mitte translatiert werden.  
+
+Mit diesem Ansatz kann auch nur mit einem erkannten Marker den Mittelpunkt des Kreuz-Musters berechnet werden. 
+Damit kann die grössere Robustheit, welche von der Marker Anordnung gegeben wird, ausgenutzt werden.
 
 
 \subsection{Kamera Eigenschaften}
