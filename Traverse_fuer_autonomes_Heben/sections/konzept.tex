@@ -525,15 +525,13 @@ Um festzustellen welche Bildauflösung optimal ist, muss die Genauigkeit der Pos
 
 Damit die Genauigkeit der Positionierung berechnet werden kann, muss man erst bestimmen auf wie viele Pixel genau die Lokalisierung ist.
 
-Diese Pixel-Genauigkeit ist variabel, da mit Eckenpunkt-Verfeinerung Methoden Subpixel-Genauigkeiten erreicht werden können.
+Diese Pixel Genauigkeit ist variabel, da mit Eckenpunkt Verfeinerung Methoden Subpixel Genauigkeiten erreicht werden können.
 Diese Methoden sind zeitaufwändig, da die Methode Iterativ sind, aber erlauben eine bessere Genauigkeit, welches die Posenschätzung verbessert.
 
 Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der Bildauflösung keine Eckenpunkt-Verfeinerungs Methoden benutzt und ist somit:
-
 \[
-q = 1\text{px}
+q = 1\text{ px}
 \]
-
 Danach muss die Pixelgrösse \(g cm/p\), also die Grösse eines Bildpixels in der Realität, berechnet werden.
 
 \begin{equation}
@@ -541,12 +539,11 @@ g = \frac{2 \cdot h \cdot \tan\frac{\alpha}{2}}{r} = \frac{2 \cdot 100 \cdot \ta
 \label{eq:PixelReal}
 \end{equation}
 
+In der Formel \ref{eq:PixelReal} wird das horizontale Sichtfeld durch die horizontale Bildauflösung geteilt um so die Grösse jeden Pixels zu erhalten.
+Das horizontale Sichtfeld wird mit dem Tangents des Halbwinkel berechnet, welches zusammen mit der Höhe von einem Meter multipliziert wird.
+Da dies nur die halbe Sichtweite ist, wird diese verdoppelt um den ganzen horizontalen Sichtfeld zu erhalten.
 
-In der Formel \ref{eq:PixelReal} wird das horizontale Sichtfeld durch die horizontale Bildauflösung geteilt, um so die Grösse jeden Pixels zu erhalten.
-Das horizontale Sichtfeld wird mit dem Tangens des Halbwinkel berechnet, welches zusammen mit der Höhe von einem Meter multipliziert wird.
-Da dies nur die halbe Sichtweite ist, wird diese verdoppelt, um den ganzen horizontalen Sichtfeld zu erhalten.
-
-Mit \(p\) und \(g\) kann die Genauigkeit der Positionierung pro Meter \(t\) berechnet werden.
+Mit \(p\) und \(g\) kann die Genauigkeit der Positionierung pro Meter \(t\)  berechnet werden.
 
 \begin{equation}
 t = g \cdot q
@@ -569,13 +566,5 @@ Wenn man jetzt diese Formeln einsetzt für verschiedene Bildauflösungen.
 Wie die Tabelle zeigt, nimmt die Genauigkeit zu je grösser Die Bildauflösung wird. 
 Natürlich sind das Ideal-Werte, da Noise der Kamera und andere externen Bedingungen nicht beachtet wurden. 
 
-\subsection{Evaluation Konzept}
-Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder, um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. 
-Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. 
-Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann, dass diese den gleichen Abstand zueinander haben, weshalb die Lokalisierung mit Marker ausgewählt wurde.
-
-Des Weiteren wird mit der Marker Anordnung die Robustheit sichergestellt vom System, so dass bei Wetterbedingungen, welche Marker zum Teil verdecken können, es trotzdem potenzielle andere Marker gibt.
-
-Weiters sollte durch die berechneten Kamera Eigenschaften sichergestellt werden, dass die Genauigkeiten erfüllt werden können. 
-
-Mit diesem Konzept können die Anforderungen alle erfüllt werden.
+\subsection{Evaluation Konzepte}
+Um die Lokalisierung durch Machine-Learning durchzuführen braucht es genügend gelabelte Bilder um ein Modell zu trainieren, da kein vortrainiertes Modell vorhanden ist. Das auftreiben und labeln von diesen Bildern würde Zeit und Kosten brauchen. Die Kunden bestätigten das Marker an der Last angebracht werden können und dass sichergestellt werden kann dass diese den gleichen Abstand zueinander haben, weshalb das zweite Konzept ausgewählt wurde.
