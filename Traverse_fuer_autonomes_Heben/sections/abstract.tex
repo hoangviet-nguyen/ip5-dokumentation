@@ -1,13 +1,18 @@
 \section*{Abstract}
 \selectlanguage{ngerman}
-Unser Partner, Ludwig System, entwickelt Traversen zur Balancierung schwerer Lasten wie Wände und Dächer. Die Befestigung dieser Lasten erfolgt bisher manuell, was eine gefährliche und zeitintensive Aufgabe darstellt. Zur Automatisierung dieses Prozesses entwickeln wir Systeme, die fähig sind, Anschlagspunkte automatisch zu erkennen. In diesem Dokument präsentieren wir einen Prototypen, der mittels AprilTags Anschlagspunkte identifiziert. Diese Technologien sind in der Robotik für die Positionsbestimmung bereits bewährt. Sie ermöglichen es uns, präzise Koordinaten zu berechnen, die für eine genaue Ausrichtung und effektive Platzierung der Traverse entscheidend sind. Dies versetzt Ludwig System in die Lage, in zukünftigen Iterationen die automatische Befestigung und das Ansteuern der Anschlagspunkte zu realisieren. Die Dimensionierung der Marker und die Positionierung der Kameras wurden basierend auf Kundenspezifikationen theoretisch validiert, um die Genauigkeit des Systems zu gewährleisten.
-
-
+Unser Partner, Ludwig System, entwickelt Traversen zur Balancierung schwerer Lasten wie Wände und Dächer. 
+Die Befestigung dieser Lasten erfolgt bisher manuell, was eine gefährliche und zeitintensive Aufgabe darstellt. 
+Zur Automatisierung dieses Prozesses sollte ein System entwickelt werden, das fähig ist, Anschlagspunkte automatisch erkennen zu können. 
+In diesem Dokument wird ein Prototyp vorgstellt, der mittels AprilTags Anschlagspunkte identifiziert.
+Dies wird durch die Posenschätzung der Marker erreicht und durch die Anordnung der Marker kann die Position und Rotation des Anschlagspunkt in Echtzeit berechnet werden und Ausgegeben werden.
+Die Implementierung konnte die meisten Anforderungen von Kunden erfüllen, ausser die Genauigkeiten zur Neigung, da keine Tests durchgeführt werden konnten.
+Weiters konnte nicht die Zuverlässigkeit des Systems bei Wetter evaluiert werden. 
+Zurzeit ist die Latenz in der Implementation zu hoch. 
 \vspace{2ex}
 
 \textbf{Keywords:}
 
-tic, tac
+Fiducial Marker, Apriltags, ArUco, 3D Lokalisierung, OpenCV, Python
 
 \clearpage
 
