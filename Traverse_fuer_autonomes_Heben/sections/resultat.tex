@@ -329,7 +329,7 @@ Die Mittlere Abweichung in diesem Fall bedeutet den Translationsvektor v1 vom mi
 
 Die Formel dafür ist: 
 \begin{equation}
-    v = v1 - v2\\
+    v = v1 - v2 \\
     m = \frac{v.x + v.y + v.z}{3}
     \label{eq:mittlereAbweichung}
 \end{equation}
@@ -367,3 +367,24 @@ Die grösste Mittlere Abweichung ist \(0.89\degree\), welche noch unter den Anfo
 
 
 \subsection{Diskussion}
+
+Die Resultate aus dem Kapitel \ref{sec:EvaluationPosen} zeigten das beide Marker in der X-Translation die Genauigkeit erfüllen.
+ArUco hat hier leicht bessere Genauigkeit, aber die Unterschiede sind zu klein, um wirkliche Aussagen treffen zu können.
+
+In der Y-Translation haben beide Marker etwa die gleiche Durschnittliche Mittelwerte. 
+Bei 200cm hatte ein ArUco Messwert die Genauigkeit von 2 cm nicht erfüllt. 
+Da dieser Wert nur leicht überschritten wird, könnte dieser Fehler auch an Messungenauigkeiten während dem Testen liegen.
+Bei der Z-Translation ist der Apriltag deutlich genauer an der Messdistanz als der ArUco Marker.
+In der Rotation sind beide Marker etwa gleich gut.
+
+Durch diese Ergebnisse wurde weiters nur mit Apriltag gearbeitet, da diese leicht bessere Ergebnisse hatte vor allem in der Z-Translation.
+
+Es konnten keine Tests zu der Neigung durchgeführt werden können, weshalb die Anforderungen zu diesem Teil nicht 
+
+Die Mittelpunkt Berechnung hatte nur einen kleinen Unterschied zu den tatsächlichen gemessenen Positionen und Rotationen. 
+Dadurch wurde die Anforderung zu der Mittelpunkt Berechnung erfüllt.
+
+Weiters konnten keine Tests zu Wetter durchgeführt werden, um die Zuverlässigkeit während Wetterbedingungen zu evaluieren.
+
+
+
