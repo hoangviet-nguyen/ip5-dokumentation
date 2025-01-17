@@ -77,9 +77,9 @@ Folgendes Beispiel zeigt wie man die Kalibrierungsbilder in das Programm lädt:
 
 
 In der Methode \texttt{find\_chessboard\_corners} werden die Object Points und image Points ausgegeben. Object Points sind die 3D Punkte der Schachbrett-Muster Ecken.
-Dann wird jedes Bild zu einem Graustufen-Bild umgewandelt, da dass SchabrettMuster Schwarz-Weiss ist, braucht es die RGB Werte nicht. 
-Durch die findChessboardCorners von opencv erhält man alle image points, also die Ecken des Schachbrett-Musters, und ret. 
-Ret besagt ob ein Schabrett-Muster gefunden worden ist und falls das der Fall ist werden die Object Points und Image Points erweitert. \clearpage
+Dann wird jedes Bild zu einem Graustufen-Bild umgewandelt, da das Schachbrett-Muster Schwarz-Weiss ist, braucht es die RGB Werte nicht. 
+Durch die findChessboardCorners von OpenCV erhält man alle image points, also die Ecken des Schachbrett-Musters, und ret. 
+Ret besagt ob ein Schachbrett-Muster gefunden worden ist und falls das der Fall ist werden die Object Points und Image Points erweitert. \clearpage
 
 
 \lstset{
@@ -121,7 +121,7 @@ Ret besagt ob ein Schabrett-Muster gefunden worden ist und falls das der Fall is
         return obj_points, img_points
 \end{lstlisting}
 
-Die Object Points und Image Points können dann in die calibrateCamera Methode von opencv eingefügt 
+Die Object Points und Image Points können dann in die calibrateCamera Methode von OpenCV eingefügt 
 werden, um die Kamera Matrix und die Verzerrungs-Koeffizienten zu bekommen.
 
 
@@ -152,12 +152,11 @@ werden, um die Kamera Matrix und die Verzerrungs-Koeffizienten zu bekommen.
         return ret, mtx, dist, rvecs, tvecs
 \end{lstlisting}
 
-
-Zuletzt werden die Kamera Matrix und Verzerrungs Koeffizienten in eine Datei gespeichert, so dass 
-diese bei einem neuen Start wieder verwendet werden können ohne kalibrieren zu müssen.
+Zuletzt werden die Kamera Matrix und Verzerrungs- Koeffizienten in eine Datei gespeichert, so dass 
+diese bei einem neuen Start wiederverwendet werden können, ohne kalibrieren zu müssen.
 
 Sollte sich der Fokus der Kamera oder eine andere Kameraeigenschaft ändern,
-muss diese Kalibrierung neu gemacht werden, um so die neue Kalibrierungs Datei benutzen zu können.
+muss diese Kalibrierung neu gemacht werden, um so die neue Kalibrierungs-Datei benutzen zu können.
 
 \lstset{
   language=Python,
@@ -183,16 +182,17 @@ muss diese Kalibrierung neu gemacht werden, um so die neue Kalibrierungs Datei b
 \clearpage
 
 \subsection{Lokalisierung der Last}
-Im Folgenden haben wir zwei verschiedene Markerarten miteinander verglichen. Die Implementierung der beiden Markerarten
-unterscheidet sich dabei in einigen Aspekten: Für AruCo stehen bereits vorgefertigte Methoden in OpenCV zur Verfügung, 
+Im Folgenden haben wir zwei verschiedene Marker Arten miteinander verglichen. Die Implementierung der beiden Marker Arten
+unterscheidet sich dabei in einigen Aspekten: Für ArUco stehen bereits vorgefertigte Methoden in OpenCV zur Verfügung, 
 während für AprilTags eine externe Bibliothek verwendet werden muss.
+
 
 \subsubsection{Implementierung: ArUco}
 
 Um ein ArUco Marker erkennen zu können muss man erst die Dictionary des Ausgewählten Markers definieren. 
 In dieser Implementierung ist es die \texttt{DICT\_4X4\_1000}.
 Danach muss ein Detector initialisiert werden und damit kann man in einem Bild alle Marker Ecken und IDs bekommen.
-Durch diese kann man dann durch iterieren um für jeden gefundenen Marker eine Posenschätzung durchzuführen.
+Durch diese kann man dann durch iterieren, um für jeden gefundenen Marker eine Posenschätzung durchzuführen.
 
 
 \lstset{
@@ -222,11 +222,11 @@ total_markers = range(0, marker_IDs.size)
 
 
 \subsubsection{Implementierung: AprilTag}
-Um AprilTags erkennen zu können verwenden wir die Github Resource \cite{apriltag_github}.
+Um AprilTags erkennen zu können verwenden wir die GitHub Ressource \cite{apriltag_github}.
 Die Software wird unter der BSD 2-Clause License veröffentlicht und kann unter bestimmten Bedingungen
-Frei genutzt werden. Wir stellen die Benötigten Binär Dateien in unseren Projekt zur verfügung.
+Frei genutzt werden. Wir stellen die Benötigten Binär Dateien in unserem Projekt zur Verfügung.
 
-Folgendes Code Beispiel zeigt wie der AprilTag im einem Bild erkannt werden kann.
+Folgendes Code Beispiel zeigt wie der AprilTag in einem Bild erkannt werden kann.
 
 \lstset{
   language=Python,
@@ -320,16 +320,15 @@ räumliche Transformationen durchzuführen.
 Da man nicht die Koordinaten der Marker braucht, sondern die des Anschlagspunkts, muss man eine 
 Mittelpunkt-Berechnung durchführen wie im Kapitel \ref{sec:middlePoint} beschrieben.
 
-Man führt zuerst die Posenschätzung aus um die Translations und Rotations Vektoren zu bekommen.
-Mit der Rodrigues Methode kann man den Rotations Vektor zu einer Rotations Matrix umwandeln.
-Dann muss man die Translation zur Mitte zusammen mit der Rotationsmatrix zusammenrechnen um so eine richtig rotierte Translation zur Mitte zu bekommen.
+Man führt zuerst die Posenschätzung aus, um die Translations- und Rotations-Vektoren zu bekommen.
+Mit der Rodrigues Methode kann man den Rotations-Vektor zu einer Rotations-Matrix umwandeln.
+Dann muss man die Translation zur Mitte zusammen mit der Rotationsmatrix zusammenrechnen, um so eine richtig rotierte Translation zur Mitte zu bekommen.
 Welche Translation benutzt werden muss wird, wie im Kapitel \ref{sec:middlePoint} beschrieben, durch die ID des Markers Modulo 4 definiert, da es 4 pro Anschlagspunkt gibt.
 
-Schlussendlich wird auf die Translations Vektoren der Marker die Translation zur Mitte addiert 
+Schlussendlich wird auf die Translations-Vektoren der Marker die Translation zur Mitte addiert 
 und so bekommt man den Mittelpunkt der Anordnung. \clearpage
 
-
-Folgender Code iteriert durch die gefundenen Marker und berechnet den Mitllepunkt: 
+Folgender Code iteriert durch die gefundenen Marker und berechnet den Mittelpunkt: 
 \lstset{
     language=Python,
     basicstyle=\ttfamily\small,
@@ -365,12 +364,4 @@ Folgender Code iteriert durch die gefundenen Marker und berechnet den Mitllepunk
         translate = np.matmul(rmtx, pointTranslations[ids % 4])
         point = np.add(tVec[i][0], translate)
 \end{lstlisting}
-
-Man führt zuerst die Posenschätzung aus um die Translations und Rotations Vektoren zu bekommen.
-Mit der Rodrigues Methode kann man den Rotations Vektor zu einer Rotations Matrix umwandeln.
-Dann muss man die Translation zur Mitte zusammen mit der Rotationsmatrix zusammenrechnen um so eine richtig rotierte Translation zur Mitte zu bekommen.
-Welche Translation benutzt werden muss wird, wie im Kapitel \ref{sec:middlePoint} beschrieben, durch die ID des Markers Modulo 4 definiert, da es 4 pro Anschlagspunkt gibt.
-
-Schlussendlich wird auf die Translations Vektor vom Marker die Tranlation zur Mitte addiert und so bekommt man den Mittelpunkt der Anordnung.
-
 
