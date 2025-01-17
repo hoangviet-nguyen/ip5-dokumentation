@@ -112,7 +112,7 @@ gemacht werden.
     \begin{subfigure}[h]{0.5\textwidth}
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_4.png}
         \caption{Mittelpunkt Berechnung mit 4 erkannten Marker}
-        \label{fig:marker_anordnung3}
+        \label{fig:marker_anordnung4}
     \end{subfigure}
     \begin{subfigure}[h]{0.5\textwidth}
         \includegraphics[width=0.5\linewidth]{graphics/anordnung_marker_2_Rotation.png}
@@ -129,10 +129,15 @@ Dabei wird von jede Marker-Koordinate in die Mitte des Keuz-Musters um Markerlä
 Die Anordung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. 
 Marker mit der ID 0 und 4 werden um + l und Marker mit ID 2 und 6 um -l in der X-Achse translatiert. 
 Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l in der Y-Achse translatiert. 
-Falls mehrere Marker erkannt werden, wird der Mittelwert aller neuen Punkten genommen.
+Falls mehrere Marker erkannt werden, wird der Mittelwert aller translatierten Punkten genommen.
+
+Bei den Abbildungen \ref{fig:marker_anordnung2} und \ref{fig:marker_anordnung2} wird die Mittelpunkt Berechnung mit jeweils 2 beziehungsweise 3 Marker beschrieben.
+Hierbei ist anzumerken, dass es keine Rolle spielt welche Marker erkannt werden. 
+Daher das Szenario, welches bei Abbildung \ref{fig:marker_anordnung2} beschrieben wird, wird auch funktionieren, falls nur die Marker mit der ID 3 und 1 erkannt werden.
 
 Abbildung \ref{fig:marker_anordnung2Rot} beschreibt, wie der Mittelpunkt berechnet wird, falls eine Rotation in den Markern existiert.
-Dabei wird die Markerlänge l, welches hier ein Vektor ist, mit der Rotation R multipliziert. Mit dem rotierten Vektor kann nun in die Mitte translatiert werden.  
+Dabei wird die Markerlänge l, welches hier ein Vektor ist, mit der Rotation R multipliziert. 
+Mit dem rotierten Vektor kann nun in die Mitte translatiert werden.  
 
 Mit diesem Ansatz kann auch nur mit einem erkannten Marker den Mittelpunkt des Kreuz-Musters berechnet werden. 
 Damit kann die grössere Robustheit, welche von der Marker Anordnung gegeben wird, ausgenutzt werden.
