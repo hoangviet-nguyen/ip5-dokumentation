@@ -8,7 +8,7 @@ Zusätzlich werden die Umsetzungen der Posenschätzung und der Mittelpunkt-Berec
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{graphics/Ablauf.png}
+    \includegraphics[width=\linewidth]{graphics/Ablauf.png}
     \caption{Ablauf Diagramm vom System}
     \label{fig:Ablauf}
 \end{figure}
@@ -249,7 +249,7 @@ detected_marker = detector.detect(undistorted)
 \end{lstlisting}
 
 
-Die Variable \texttt{detected\_marker} enthält eine Liste der erkannten Marker, einschließlich ihrer Tag-Nummern.
+Die Variable \texttt{detected\_marker} enthält eine Liste der erkannten Marker, einschliesslich ihrer Tag-Nummern.
 Zusätzlich liefert die Variable die Koordinaten der Eckpunkte der Marker im Bild sowie 
 die Koordinaten des Zentrums jedes Markers. Diese Informationen sind essenziell, um die Marker 
 präzise zu lokalisieren und weitere Berechnungen, wie die Positionsbestimmung, durchzuführen.
@@ -259,8 +259,8 @@ präzise zu lokalisieren und weitere Berechnungen, wie die Positionsbestimmung, 
 \subsubsection{Umsetzung Posenschätzung}
 Die Posenschätzung ermöglicht es, die Position und Orientierung eines Markers relativ zur Kamera
 zu bestimmen. Dafür werden die intrinsischen Kameraparameter, die Eckpunkte des erkannten 
-Markers (in Bildkoordinaten) sowie die reale Größe des Markers benötigt. Die Größe sollte 
-in einer einheitlichen Maßeinheit angegeben werden, in unserem Fall Zentimeter (cm). \clearpage
+Markers (in Bildkoordinaten) sowie die reale Grösse des Markers benötigt. Die Grösse sollte 
+in einer einheitlichen Masseinheit angegeben werden, in unserem Fall Zentimeter (cm). \clearpage
 
 Der folgende Code implementiert die Posenschätzung für einen einzelnen Marker:
 
