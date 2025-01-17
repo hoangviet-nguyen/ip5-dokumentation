@@ -14,23 +14,344 @@ Lokalisiert.
 
 \subsection{Anforderungen}\label{requirements}
 
-Folgende Anforderungen muss das System erfüllen:
-
-\begin{center}
-    \begin{tabular}{ |l|l| }
-        \hline
-        \textbf{Anforderung} & \textbf{Beschreibung} \\ \hline
-        X/Y Genauigkeit & Ungenauigkeit: ±2 cm \\ \hline
-        Z Genauigkeit & Ungenauigkeit: ±1 cm \\ \hline
-        Rotation & Ungenauigkeit: ±2° \\ \hline
-        Neigung & Ungenauigkeit: ±1° \\ \hline
-        Kamera Kalibrierung & Kalibrierung und Speicherung möglich \\ \hline
-        Anschlagspunkte & Ausgabe der Koordinaten \\ \hline
-    \end{tabular}
-    \end{center}
+\subsubsection{Feature beschreibung}
 
 
-\subsection{Konzept: Lokalisierung durch AR Marker}
+F01: Intrinsische Kamera-Kalibrierung
+
+\begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.2590}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.7410}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Attribut}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Inhalt}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  \textbf{Name} & F01: Intrinsische Kamera-Kalibrierung \\
+  \textbf{Beschreibung} & Die Kameras des Systems werden kalibriert
+  mithilfe eines 9x6 Schachbrett-Musters. \\
+  \textbf{Ziele} & Das System hat eine Kalibrierungsdatei
+  «calibration.yaml» zur Verfügung und kann damit exakte Koordinaten und
+  Rotationen berechnen. \\
+  \textbf{Implementierung} & Es werden OpenCV Methoden zum Erkennen des
+  Schachbrett-Musters benutzt. Das Einlesen der Bilder und die Speicherung
+  der Kalibrierung wird selbst implementiert. \\
+  \bottomrule()
+\end{longtable}
+
+F02: Marker-Erkennung
+
+\begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.2592}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.7408}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Attribut}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Inhalt}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  \textbf{Name} & F02: Marker-Erkennung \\
+  \textbf{Beschreibung} & Das System kann alle Marker erkennen und die ID
+  bestimmen. \\
+  \textbf{Ziele} & Das System kann auf einer Distanz von 75cm bis 200cm
+  alle Marker erkennen und die jeweiligen IDs der Marker bestimmen. Es
+  wird eine Bounding-Box (rechteckige Box) um die Marker gezeichnet. \\
+  \textbf{Implementierung} & Es werden Bibliotheken zum Erkennen der
+  Marker benutzt. Beim Erkennen werden die IDs und Ecken zurückgegeben.
+  Mithilfe der Ecken wird die Bounding-Box gezeichnet. \\
+  \bottomrule()
+  \end{longtable}
+
+  F03: Daten für Traversen-Positionierung
+
+  \begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.2500}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.7500}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Attribut}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Inhalt}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  \textbf{Name} & F03: Daten für Traversen-Positionierung \\
+  \textbf{Beschreibung} & Das System kann mithilfe der erkannten Marker
+  die Position der Anschlagspunkte bestimmen. \\
+  \textbf{Ziele} & Das System gibt die Ist-Koordinaten der Anschlagspunkte
+  in Millimetern im linkshändigen Koordinatensystem an. Diese Koordinaten
+  werden durch die X-, Y- und Z-Werte definiert und dienen zur präzisen
+  Neu-Positionierung der Traverse. X und Y müssen mit einer Genauigkeit
+  von ±2 cm, Z mit einer Genauigkeit von ±1 cm angegeben werden.
+  Zusätzlich soll das System die Rotation der Anschlagspunkte um die Y-
+  und Z-Achse in Grad ausgeben. Die Rotation um die Y-Achse muss mit einer
+  Genauigkeit von ±1° und die Rotation um die Z-Achse mit einer
+  Genauigkeit von ±2° erfolgen. \\
+  \textbf{Implementierung} & Es werden OpenCV Methoden benutzt, um
+  Posenschätzungen von den Markern zu machen. Durch die Posenschätzungen
+  der Marker wird die Mitte des Marker-Kreuzes (siehe nicht Funktionale
+  Anforderung 3.2.3) berechnet. Ausgangspunkt für die Berechnung und der
+  Ist-Koordinaten ist die Kamera-Position. \\
+  \bottomrule()
+  \end{longtable}
+
+  \subsubsection{Szenarios}
+
+  S-F01: Kamera-Kalibrierung
+
+\begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Attribut}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Erklärung}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  ID & S-F01 \\
+  Anwendungsfall & Intrinsische Kamera-Kalibrierung \\
+  Akteure & Administrator \\
+  Ereignisfluss & \begin{minipage}[t]{\linewidth}\raggedright
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Mitarbeiter lädt Fotos vom Muster von verschieden Positionen hoch.
+  \item
+    Das System liest Muster-Fotos ein.
+  \item
+    Das System kalibriert sich mit diesen Fotos.
+  \item
+    Das System speichert die Kalibrierung in der Datei «calibration.yaml».
+  \end{enumerate}
+  \end{minipage} \\
+  Voraussetzung & Mind. 10 Fotos von einem 9x6 Schachbrett von
+  verschiedenen Positionen, Distanzen und Winkel (Je diverser desto
+  genauer die Koordinaten).
+  
+  Die Kamera und der Fokus sind die gleichen, wie sie in der Praxis
+  benutzt werden. \\
+  Nachbedingung & Das System ist kalibriert und die Kalibrierungsdatei
+  «calibration.yaml» existiert für spätere Nutzung. \\
+  \bottomrule()
+  \end{longtable}
+
+  S-F02: Marker-Erkennung
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/markerAnforderung.png}
+    \caption{Beispiel Ausgabe eines ArUco Marker mit Bounding-Box und ID}
+    \label{fig:markerAnforderung}
+\end{figure}
+
+  \begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Attribut}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Erklärung}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  ID & S-F02 \\
+  Anwendungsfall & Marker-Erkennung \\
+  Akteure & \\
+  Ereignisfluss & \begin{minipage}[t]{\linewidth}\raggedright
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Die Traverse wird über die Last positioniert.
+  \item
+    Das System erkennt die Marker.
+  \item
+    Das System speichert die Marker-ID und die Ecken.
+  \item
+    Das System zeichnet rote Bounding-Boxen um die Marker.
+  \item
+    Das System zeigt das Ausgabebild an.
+  \item
+    Das System geht zu Punkt 2 zurück.
+  \end{enumerate}
+  \end{minipage} \\
+  Alternativer Ereignisfluss & 2a. Das System erkennt keine Marker.
+  
+  3a. Das System zeigt Ausgabebild an.
+  
+  4a. Das System geht zu Punkt 2 zurück.
+  
+  2b. Das System erkennt mehrere Marker.
+  
+  3b. Das System speichert alle Marker IDs und ihre zugehörigen Ecken.
+  
+  4b. Das System zeichnet um alle Marker eine Bounding-Box. \\
+  Voraussetzung & Die Traverse ist über der Last mit einer Distanz von
+  75cm bis 200cm.
+  
+  Ein Bildschirm für das Anzeigen muss vorhanden sein.
+  
+  Die Intrinsische Kamera-Kalibrierungsdatei «calibration.yaml» muss
+  existieren.
+  
+  Die Kamera hat den gleichen Fokus wie beim Kalibrieren. \\
+  Nachbedingung & Das System hat alle Marker IDs und ihre Ecken für
+  weitere Berechnungen.
+  
+  Das Ausgabebild kann präsentiert werden. \\
+  \bottomrule()
+  \end{longtable}
+
+  S-F03: Daten für Traversen-Positionierung
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/MitteAnforderung.png}
+    \caption{Von der Position der einzelnen Marker auf die Mitte des Marker-Kreuzes}
+    \label{fig:MitteAnforderung}
+\end{figure}
+
+\begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Attribut}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Erklärung}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  ID & S-F03 \\
+  Anwendungsfall & Anschlagspunkt \\
+  Akteure & \\
+  Ereignisfluss & \begin{minipage}[t]{\linewidth}\raggedright
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Das System liest die vorgefertigte Kalibrierungsdatei ein.
+  \item
+    Das System erhält IDs und Ecken der Marker.
+  \item
+    Das System bestimmt die Rotation und Position der Marker durch
+    Posenschätzung.
+  \item
+    Die Position der Mitte der Marker-Anordnung wird berechnet.
+  \item
+    Das System gibt Koordinaten und Rotation der Anschlagspunkte auf der
+    Konsole aus.
+  \end{enumerate}
+  \end{minipage} \\
+  Voraussetzung & Die Grösse der Marker ist bekannt.
+  
+  Die Intrinsische Kamera-Kalibrierungsdatei «calibration.yaml» muss
+  existieren.
+  
+  Das System hat alle Marker IDs und ihre Ecken vom Bild zur Verfügung. \\
+  Nachbedingung & Die Koordinaten der Anschlagpunkte werden auf der
+  Konsole ausgegeben. \\
+  \bottomrule()
+  \end{longtable}
+
+
+  \subsubsection{Funktionale Anforderungen}
+
+  \begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0709}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2620}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.5558}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1112}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{ID}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Anforderung}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Beschreibung}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Feature ID}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  R01 & Bilder zur Kalibrierung einlesen. & Das System sollte eine
+  Möglichkeit bieten, vorgefertigte Bilder zur Kalibrierung einzulesen. &
+  F01 \\
+  R02 & Kalibrierung des Systems. & Das System sollte eine Methode zur
+  Kamerakalibrierung bieten können. & F01 \\
+  R03 & Kalibrierung im System abspeichern. & Das System sollte nach
+  Kalibrierung die Kalibrierungsdaten abspeichern können. & F01 \\
+  R04 & Marker erkennen & Das System sollte alle Marker erkennen können
+  und ihre IDs und Ecken abspeichern für spätere Weiterverarbeitung. &
+  F02 \\
+  R05 & Die Bounding-Box zeichnen & Das System sollte im Bild eine rote
+  Bounding-Box (rechteckige Box), um die Marker zeichnen können. & F02 \\
+  R06 & Bearbeitetet Video ausgeben & Das System sollte ständig das
+  verarbeitete Bild mit den Bounding-Boxes ausgeben können. & F02 \\
+  R08 & Position der Marker bestimmen. & Das System sollte mithilfe der
+  Marker die X, Y und Z Position der Anschlagspunkte genauer bestimmen
+  können. & F03 \\
+  R09 & Rotation der Marker bestimmen. & Das System sollte mithilfe der
+  Marker die Ausrichtung der Anschlagspunkte bestimmt können. & F03 \\
+  R10 & Position des Anschlagpunkts berechnen. & Das System sollte
+  mithilfe der Position der Marker, deren Rotation und Anordnung, die
+  Position des Anschlagpunkts berechnen. & F03 \\
+  \bottomrule()
+  \end{longtable}
+
+  \subsubsection{Nicht Funktionale Anforderungen}
+
+
+\begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0776}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2658}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6566}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{ID}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Anforderung}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Beschreibung}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  N01 & Kamera & Für die Software muss eine Kamera vorhanden sein. \\
+  N02 & Linux OS & Software läuft nur auf einem Linux Betriebssystem. \\
+  N03 & Hardware & Software muss mindestens auf einem Raspberry PI
+  laufen. \\
+  N04 & Lizenzen & Es werden Open Source Bibliotheken verwendet, die auch
+  kommerzielle Nutzung erlauben. \\
+  \bottomrule()
+  \end{longtable}
+
+  \subsubsection{Kamera Anforderungen}
+
+  \begin{longtable}[]{@{}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+    >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+  \toprule()
+  \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Spezifikation}
+  \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+  \textbf{Mindestanforderung}
+  \end{minipage} \\
+  \midrule()
+  \endhead
+  Horizontaler Bildwinkel & \(70\degree\)\\
+  Horizontale Auflösung & 1920 Pixels \\
+  Vertikale Auflösung & 1080 Pixels \\
+  \bottomrule()
+  \end{longtable}
+
+
+\subsection{Konzept: Lokalisierung durch fiducial Marker}
 
 In diesem Konzept geht es darum die Anschlagspunkte durch Marker, wie ArUco oder AprilTags, zu lokalisieren. Dabei werden die Marker um den Anschlagspunkt angeordnet. Wenn die Marker dann erkannt werden, kann durch Posenschätzung die 3D Koordinaten und 3D Rotationen berechnet werden. Durch die Anordnung der Marker kann dann die 3D Koordinaten vom Anschlagspunkt berechnet werden. 
 Für dieses Konzept werden Sticker von den Markern benötigt, welche eine genaue Grösse haben. 
@@ -177,7 +498,7 @@ Halb-Distanz Mitte-Anschlagspunkt = d = 117.5cm\\
 Damit kann man den Bildwinkel \(\alpha\) berechnen welches beide Kameras benutzen müssen:
 
 \begin{equation}
-    \alpha = 2*\arctan\frac{d}{h} = 2*\arctan\frac{117.5}{75} = 114.9\degree
+    \alpha = 2 \cdot \arctan\frac{d}{h} = 2 \cdot \arctan\frac{117.5}{75} = 114.9\degree
     \label{eq:FOV}
 \end{equation}
 
@@ -192,12 +513,13 @@ Diese Methoden sind Zeitaufwändig, da die Iterativ sind, aber erlauben eine bes
 
 Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der Bildauflösung keine Eckenpunkt-Verfeinerungs Methoden benutzt und ist somit:
 
-Pixel-Genauigkeit = q = 1px\\
+
+Pixel-Genauigkeit = \(q = 1\text{ px}\)\\
 
 Danach muss die Pixelgrösse \(g cm/p\), also die Grösse eines Bildpixels in der Realität, berechnet werden.
 
 \begin{equation}
-g = \frac{2*h*\tan\frac{\alpha}{2}}{r} = \frac{2*100*\tan\frac{57.45\degree}{2}}{r} = \frac{313.33cm}{r}
+g = \frac{2 \cdot h \cdot \tan\frac{\alpha}{2}}{r} = \frac{2 \cdot 100 \cdot \tan\frac{57.45\degree}{2}}{r} = \frac{313.33\text{ cm}}{r}
 \label{eq:PixelReal}
 \end{equation}
 
@@ -208,7 +530,7 @@ Da dies nur die halbe Sichtweite ist, wird diese verdoppelt um den ganzen horizo
 Mit \(p\) und \(g\) kann die Genauigkeit der Positionierung pro Meter \(t\)  berechnet werden.
 
 \begin{equation}
-t = g * q
+t = g \cdot q
 \label{eq:precision}
 \end{equation}
 
@@ -219,9 +541,9 @@ Wenn man jetzt diese Formeln einsetzt für verschiedene Bildauflösungen.
     \label{tab:resolutions}
      Bildauflösung & Genauigkeit pro Meter\\ 
      \hline
-     1920x1080 & 0.163cm \\  
-     3840x2160 & 0.082cm \\
-     4096x2160 & 0.076cm \\ 
+     1920x1080 & 0.163 cm \\  
+     3840x2160 & 0.082 cm \\
+     4096x2160 & 0.076 cm \\ 
 \end{tabular}
 \end{center}
 
