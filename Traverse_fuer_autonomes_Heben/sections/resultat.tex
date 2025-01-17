@@ -2,6 +2,43 @@
 
 \subsection{Testumgebung}
 
+Um zu testen ob die Implementierung die Anforderungen erfüllen kann, mussten Test-bilder geschossen werden.
+
+So dass die Test-Bilder genau sind und aus den resultierenden Posenschätzungen die Genauigkeit bestummen werden kann, wurde eine Testumgebung aufgebaut.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\textwidth]{graphics/Skizze_TestUmgebung.PNG}\hfill%
+        \caption{Skizze der Testumgebung}
+        \label{fig:SkizzeTestumgebung}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[h]{0.5\textwidth}
+        \includegraphics[width=0.5\textwidth]{graphics/TestUmgebung.jpg}\hfill%
+        \caption{Implementierung der Testumgebung}
+        \label{fig:Testumgebung}
+    \end{subfigure}
+    \caption{Beschreibung der Testumgebung}
+\end{figure}
+
+Die Abbildung \ref{fig:SkizzeTestumgebung} beschreibt wie die Testumgebung aufgebaut werden sollte.
+Die Kamera sollte auf einem Objekt stabilisiert werden, um ein stabileres Bild zu bekommen und dass die Kamera höher gelagert ist und so mehr sehen kann.
+
+Die Marker sollten auf einer Wand befestigt werden. 
+Um einen fairen Vergleich zwischen Apriltag und ArUco machen zu können, wurden beide für die Posenschätzung nebeneinander auf einem Bild Fotografiert.
+Dies stellt sicher dass beide Marker gleich entfernt sind und kleine Verschiebungen beide beinträchtigen.
+
+Die Test-Fotos wurden von den Distanzen 75 cm, 100 cm, 150 cm und 200cm.
+75 cm und 200 cm sind jeweils die Mindesthöhe und die Maximalhöhe, bei welcher das System funktionieren sollte.
+100 cm und 150 cm wurden gewählt, um sehen wie die Ungenauigkeit sich über die Distanzen entwickelt.
+
+Bei der Abbildung \ref{fig:Testumgebung} wird gezeigt wie die Implementierung der Skizze aussieht. 
+Es wurde die Raspberry Pi Kamera Model B Rev 2.0 als Test-Kamera benutzt, welche auf einen Holzblock stabilisiert wurde.
+Mit einem 1 Meter Lineal wurde sichergestellt, dass der Holzblock und damit die Kamera relativ zu den Marker gerade war.
+Mit einem Messgerät wurde die Distanz vom Marker zur Kamera gemessen. 
+Dabei musste noch die Länge des Objektives mitberechnet werden, da das Bild vom Sensor gemacht wird und von dort die Posenschätzung durchgeführt wird.
+
 \subsection{Posenschätzung Marker}
 
 Um die Anforderungen zu erfüllen, darf die Posenschätzung der Marker auf der X- und Y-Koordinate eine Ungenauigkeit von maximal 2cm besitzen. 
