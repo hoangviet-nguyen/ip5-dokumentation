@@ -3,14 +3,17 @@
 In diesem Kapitel wird das Konzept beschrieben, wie man eine Last Lokalisieren kann mit Marker.
 Als erstes werden die Anforderungen angeschaut, welche das System erfüllen muss. 
 Danach wird die Lokalisierung mit Marker beschrieben, sowie welche Eigenschaften die Marker haben müssen.
-Weiters werden die mindest Kamera Eigenschaften aufgezählt und berechnet.
+Weiters werden die Kamera Eigenschaften aufgezählt und berechnet.
 Zum Schluss wird das Konzept evaluiert.
 
 \subsection{Überblick}
-Ludwig Systems benötigt eine Lösung, welche von der Traverse aus die Ist-Koordinaten, die Rotation und Neigung der Last ausgibt. Das Konzept soll dieses Ziel erfüllen um in der Zukunft die Traverse automatisch bewegen zu können. Des Weiteren soll das Konzept sicherstellen, dass die Genauigkeiten ,welche vom Kunden gegeben wurde, eingehalten werden können. 
+Ludwig Systems benötigt eine Lösung, welche von der Traverse aus die Ist-Koordinaten, die Rotation und Neigung der Last ausgibt. Das Konzept soll dieses Ziel erfüllen, um in der Zukunft die Traverse automatisch bewegen zu können. Des Weiteren soll das Konzept sicherstellen, dass die Genauigkeiten, welche vom Kunden gegeben wurde, eingehalten werden können. 
 Da sich die Art von Last ändern kann, wurde der Fokus auf die Lokalisierung der Anschlagspunkte gelegt. 
-Es wurden 2 Konzepte ausgearbeitet, welche diese Ziele erfüllen können. Beim ersten Konzept wird ein Machine-Learning Modell benutzt um die Anschlagspunkte zu erkennen und 3D Lokalisierung durchzuführen und beim zweiten Konzept werden die Anschlagspunkte durch AR Marker 
+Es wurden 2 Ideen ausgearbeitet, welche diese Ziele erfüllen können. Bei der ersten Idee wird ein Machine-Learning Modell benutzt, um die Anschlagspunkte zu erkennen und 3D Lokalisierung durchzuführen und bei der zweiten Idee werden die Anschlagspunkte durch AR Marker 
 Lokalisiert.
+
+Die Marker Idee wurde zu einem vollständigen Konzept ausgearbeitet.
+
 
 \subsection{Anforderungen}
 \label{sec:requirements}
@@ -372,12 +375,12 @@ Für Anschlagspunkt 1 werden Marker mit den IDs von 0 bis 3 benutzt und in der R
 Für Anschlagspunkt 2 Marker mit den IDs von 4 bis 7 benutzt. 
 In der Mitte des Kreuz-Musters sollte der Anschlagspunkt sich befinden. 
 
-Dadurch können zwischen den zwei Anschlagspunkten differenziert werden wenn beide Anschlagspunkte im Bild sind. 
+Dadurch können zwischen den zwei Anschlagspunkten differenziert werden, wenn beide Anschlagspunkte im Bild sind. 
 Falls weitere Anschlagspunkte benötigt werden, sollten die Marker-IDs-Reihenfolge und Position fortgeführt werden. 
 
-Diese Anordnung sorgt dafür dass mindestens ein Marker erkannt werden kann, soweit die Traverse in der definierten Grenze ist. 
+Diese Anordnung sorgt dafür, dass mindestens ein Marker erkannt werden kann, soweit die Traverse in der definierten Grenze ist. 
 Dies führt zu einer grösseren Robustheit gegenüber nicht erkennen von Marker oder Wetterbedingungen, welche Marker ganz oder zum Teil verdecken können.
-Weiteres muss das Design des Anschlagspunkt nicht weiter beachtet werden, da selbst wenn der Anschlagspunkt ein Marker im Bild verdecken sollte, hat es maximal 3 weitere Marker welche erkannt werden können.
+Weiteres muss das Design des Anschlagspunkt nicht weiter beachtet werden, da selbst wenn der Anschlagspunkt ein Marker im Bild verdecken sollte, hat es maximal 3 weitere Marker, welche erkannt werden können.
 
 
 \subsubsection{Markergrösse}
@@ -413,7 +416,7 @@ Diese Formel liefert eine direkte Methode, die Markergrösse an unterschiedliche
 \subsubsection{Mittelpunkt-Berechnung der Marker Anordnung}
 \label{sec:middlePoint}
 
-Um von den 3D Koordinaten der Markern zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation 
+Um von den 3D Koordinaten der Markers zu den 3D Koordinaten vom Anschlagspunkt zu kommen, muss eine Translation 
 gemacht werden.
 
 \begin{figure}[H]
@@ -447,10 +450,11 @@ gemacht werden.
 \label{fig:marker_anordnung}
 \end{figure}
 
-Wie die Abbildungen \ref{fig:marker_anordnung} zeigen, kann der Mittelpunkt mit beliebig vielen erkannten Marker berechnet werden.
-Dabei wird von jede Marker-Koordinate in die Mitte des Keuz-Musters um Markerlänge l translatiert.
 
-Die Anordung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. 
+Wie die Abbildungen \ref{fig:marker_anordnung} zeigen, kann der Mittelpunkt mit beliebig vielen erkannten Marker berechnet werden.
+Dabei wird von jede Marker-Koordinate in die Mitte des Kreuz-Musters um Markerlänge l translatiert.
+
+Die Anordnung der Marker und die damit zusammenhängende Marker-ID bestimmt welche Translation durchgeführt werden muss. 
 Marker mit der ID 0 und 4 werden um + l und Marker mit ID 2 und 6 um -l in der X-Achse translatiert. 
 Marker mit der ID 1 und 5 werden um -l und Marker mit ID 3 und 7 um +l in der Y-Achse translatiert. 
 Falls mehrere Marker erkannt werden, wird der Mittelwert aller translatierten Punkten genommen.
@@ -474,7 +478,7 @@ Um die Anforderungen vom \ref{sec:requirements} zu erfüllen braucht das System 
 Dafür ausschlaggebend sind die Markergrösse und eine hohe Bildauflösung\cite{noauthor_designing_2020}. 
 
 Ein weiteres Kriterium für eine genauere Posenschätzung ist die FOV, also Field of View. 
-Denn bei höheren FOVs kommt es zu verzerrungen, was dazu resultiert, dass Marker, die weiter von der Bildmitte entfernt sind, keine geraden Linien haben, welches die Posenschätzung ungenauer macht.
+Denn bei höheren FOVs kommt es zu Verzerrungen, was dazu resultiert, dass Marker, die weiter von der Bildmitte entfernt sind, keine geraden Linien haben, welches die Posenschätzung ungenauer macht.
 
 
 \subsubsection{Kamera horizontale Bildwinkel}
@@ -488,8 +492,8 @@ Die Kamera sollte von der Mindesthöhe, also 75cm, beide Anschlagspunkte sehen k
     \label{fig:FOV}
 \end{figure}
 
-Um einen grossen horizontalen BildWinkel zu vermeiden, wird wie in der Abbildung\ref{fig:FOV} zwei Kameras verwendet. 
-Beide Kameras sollten für je ein Anschlagspunkt verantwortlich sein und so im ideal Fall, wenn die Traverse direkt über der Last ist, mindestens von der Mitte der Last bis zum Anschlagspunkt reichen.
+Um einen grossen horizontalen Bildwinkel zu vermeiden, wird wie in der Abbildung\ref{fig:FOV} zwei Kameras verwendet. 
+Beide Kameras sollten für je ein Anschlagspunkt verantwortlich sein und so im idealen Fall, wenn die Traverse direkt über der Last ist, mindestens von der Mitte der Last bis zum Anschlagspunkt reichen.
 Beide Kameras sind dann 117.5cm von der Traversen Mitte entfernt.
 
 Für die Berechnung des horizontalen Bildwinkels werden folgende Variablen benutzt:
@@ -510,11 +514,10 @@ Um festzustellen welche Bildauflösung optimal ist, muss die Genauigkeit der Pos
 
 Damit die Genauigkeit der Positionierung berechnet werden kann, muss man erst bestimmen auf wie viele Pixel genau die Lokalisierung ist.
 
-Diese Pixel-Genauigkeit ist variabel, da mit mit Eckenpunkt-Verfeinerungs Methoden SubPixel-Genauigkeiten erreicht werden können.
-Diese Methoden sind Zeitaufwändig, da die Iterativ sind, aber erlauben eine bessere Genauigkeit, welches die Posenschätzung verbessert.
+Diese Pixel-Genauigkeit ist variabel, da mit Eckenpunkt-Verfeinerung Methoden Subpixel-Genauigkeiten erreicht werden können.
+Diese Methoden sind zeitaufwändig, da die Methode Iterativ sind, aber erlauben eine bessere Genauigkeit, welches die Posenschätzung verbessert.
 
-Da dass Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der Bildauflösung keine Eckenpunkt-Verfeinerungs Methoden benutzt und ist somit:
-
+Da das Konzept in Echtzeit funktionieren sollte, wird für die Berechnung der Bildauflösung keine Eckenpunkt-Verfeinerung Methoden benutzt und ist somit:
 
 Pixel-Genauigkeit = \(q = 1\text{ px}\)\\
 
