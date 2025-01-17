@@ -41,7 +41,6 @@ Lasten haben maximal 2 Anschlagspunkte, welche einen Abstand von 1m bis 6m zuein
 Diese Anschlagspunkte können auf unterschiedliche Höhen sein, wie z.B. bei Dächern welche eine
 Neigung besitzen.
 
-\clearpage
 \subsubsection{Traverse}
 Die LudwigTraverse ist eine Spezialtraverse, die speziell für den Lastausgleich entwickelt 
 wurde. Sie erweist sich insbesondere dann als nützlich, wenn die Anschlagspunkte 
@@ -121,7 +120,7 @@ Abbildung \ref{fig:marker_types} zeigt eine Auswahl solcher Marker.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{graphics/marker_arten.png}
+    \includegraphics[width=0.7\linewidth]{graphics/marker_arten.png}
     \caption{Verschiedene Markerarten}
     \label{fig:marker_types}
 \end{figure}
@@ -138,8 +137,53 @@ schwierige Lichtverhältnisse zu kompensieren und eine präzise Posenschätzung 
 Ihre Anwendung wird im weiteren Verlauf dieser Arbeit genauer beleuchtet, insbesondere im 
 Kontext der automatisierten Lokalisierung von Anschlagpunkten.
 
+\subsubsection {Wie AruCo und AprilTags erkannt werden}
+AruCo-Marker und AprilTags sind quadratische Marker mit einem schwarzen Rand und einer binären Matrix, 
+die spezifische Informationen wie die Marker ID encodiert. Der schwarze Rand erleichtert die schnelle Erkennung
+der Marker in einem Bild, während die encodierte Matrix dazu dient, die ursprüngliche Orientierung
+des Markers zu bestimmen. Die Grösse eines AruCo-Markers beeinflusst, wie viele Bits in der Matrix encodiert
+werden können. Ein 4x4 AruCo-Marker besteht beispielsweise aus 16 Bits. Abbildung \ref{fig:sizes} zeigt 
+Beispiele für verschiedene Grössen von AruCo-Markern. Der Marker unten rechts besteht aus einer 11x11-Matrix, 
+was insgesamt 121 Bits ergibt.
 
-\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{marker_sizes.png}
+    \caption{Unterschiedliche Grössen von AruCo-Markern im Vergleich}
+    \label{fig:sizes}
+\end{figure}
+
+
+Um AruCo-Marker detektieren zu können, müssen zunächst Parameter wie die Anzahl der Quadrate, die die Matrix encodieren,
+sowie die tatsächliche Grösse in der gewünschten Einheit angegeben werden. Der Erkennungsprozess erfolgt dabei in zwei 
+Hauptschritten. Im ersten Schritt wird das Bild auf potenzielle Marker-Kandidaten analysiert. Dabei werden die Konturen
+im Bild segmentiert und die Quadratischen Konturen bleiben für die weitere Verarbeitung erhalten. 
+Konturen, die zu klein, zu gross oder zu nah beieinander liegen werden ebenfalls verworfen.
+Abbildung \ref{fig:segmentation} zeigt eine Visualisierung des Segmentationsprozesses und wie potenzielle
+Marker-Kandidaten identifiziert werden.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{segmentation.png}
+    \caption{Kontur Segmentation eines Bildes}
+    \label{fig:segmentation}
+\end{figure}
+
+Nachdem die Kandidaten ausgewählt wurden, muss in einem zweiten Schritt geprüft werden, ob es sich tatsächlich um Marker handelt.
+Dazu werden aus dem kalibrierten Bild die einzelnen Bits eines Markers extrahiert. Um schwarze von weissen Bits unterscheiden zu können,
+wird das Bild zuvor binarisiert. Der Schwellenwert für die Binarisierung wird mithilfe von Otsu's Methode bestimmt.
+
+Im Anschluss wird das Bild in Zellen aufgeteilt, wobei die Zellgrösse durch die Markergrösse und die Anzahl der Bits eines Markers festgelegt
+wird. Nachdem das Bild in Zellen unterteilt wurde, wird die Anzahl der schwarzen und weissen Pixel in jeder Zelle gezählt, um festzustellen, 
+ob es sich bei der Zelle um ein schwarzes oder weisses Bit handelt.
+
+Abschliessend wird überprüft, ob die extrahierten Bits mit dem vorgegebenen Dictionary übereinstimmen, sodass die Marker eindeutig zugeordnet werden können.
+
+AprilTags folgen einem ähnlichen Ansatz, sind jedoch für höhere Genauigkeit und Robustheit optimiert. Ein zentraler Unterschied ist, dass AprilTags für eine
+bessere Fehlerkorrektur ausgelegt sind, was sie besonders für Anwendungen in der Robotik und Augmented Reality geeignet macht.
+
+
+
 \subsubsection{Posenschätzung durch AR Marker}
 Das Problem der Posenberechnung stammt aus dem Bereich der erweiterten 
 Realität. Dabei wird eine Gleichung gelöst, die den Projektionsfehler 
